@@ -1,17 +1,17 @@
 # Unity Sample for Pushe
 
-This is a sample application (made by Unity) which is powered by [Pushe](http://pushe.co) push notification service.
+This is a sample application (made by Unity), which is powered by [Pushe](http://pushe.co) push notification service.
 
 You can see other samples:
 * [Android Studio](https://github.com/ronashco/pushe-android-studio-sample)
 * [Eclipse](https://github.com/ronashco/pushe-eclipse-sample)
-* [Basic4Android](https://github.com/ronashco/pushe-ba4-sample)
+* [Basic4Android](https://github.com/ronashco/pushe-b4a-sample)
 
-For a complete demo app and Wiki you may **Pushe Android Demo**
-* [pushe-android-demo on github](https://github.com/ronashco/pushe-android-demo)
-* [Pushe Demo App on Google Play](http://pushe.co/static/images/googleplay-logo.png)
+To see our demo app or its wiki page you may take a look at:
+* [Download app from Google Play](https://play.google.com/store/apps/details?id=co.ronash.pushesample)
+* [Github Repository](https://github.com/ronashco/pushe-sample)
 
-## Installation 
+## Pushe Installation in a Unity Project 
 
 ...
 
