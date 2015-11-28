@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="co.ronash.pushe"
+    android:versionCode="800100"
+    android:versionName="0.8.1" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="21" />
+
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.WAKE_LOCK" />
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+<permission
+    android:name="co.ronash.pushesample.permission.C2D_MESSAGE"
+    android:protectionLevel="signature" />
+<uses-permission android:name="co.ronash.pushesample.permission.C2D_MESSAGE" />
+<!-- Optional permissions -->
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+
+    <application>
+        <service
+            android:name="co.ronash.pushe.service.GcmService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="co.ronash.pushe.service.FallbackGcmNetworkManagerReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="co.ronash.pushe.CHECK_TASKS" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="co.ronash.pushe.service.FallbackGcmTaskRunner"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="co.ronash.pushe.ACTION_TASK_READY" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="co.ronash.pushe.service.GcmTaskRunner"
+            android:exported="true"
+            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE" >
+            <intent-filter>
+                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="co.ronash.pushe.service.IntentTaskRunner"
+            android:exported="false" />
+        <service
+            android:name="co.ronash.pushe.service.InstanceIDService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="co.ronash.pushe.service.RepeatRegistration"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="co.ronash.pushe.REPEAT_REGISTRATION" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="co.ronash.pushe.BootReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="co.ronash.pushe.activities.PopupDialogActivity"
+            android:theme="@style/PusheTransparent" >
+        </activity>
+        
+        <receiver android:name="co.ronash.pushe.service.UpdateReceiver" >
+    <intent-filter>
+        <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+        <data
+            android:path="co.ronash.pushesample"
+            android:scheme="package" />
+    </intent-filter>
+</receiver>
+<receiver
+    android:name="com.google.android.gms.gcm.GcmReceiver"
+    android:exported="true"
+    android:permission="com.google.android.c2dm.permission.SEND" >
+    <intent-filter>
+        <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+        <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+        <category android:name="co.ronash.pushesample" />
+    </intent-filter>
+</receiver>
+
+
+
+<meta-data android:name="co.ronash.pushe.token" android:value="50-b085-4d_76583046756"/>
+    </application>
+
+</manifest>

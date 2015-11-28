@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/C:/Ronash/pushe/pushe-android-lib/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="pushe_app_name">پوشه</string>
+    <string name="pushe_close_dialog">بستن</string>
+    <!-- From: file:/C:/Ronash/pushe/pushe-android-lib/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="PusheTransparent">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+</resources>
