@@ -16,8 +16,9 @@
 #   public *;
 #}
 
+#Ronash proguard
 -keep public class co.ronash.pushe.Pushe {
-    public static void initialize(android.content.Context, boolean);
+    public static void initialize(android.app.Activity, boolean);
     public static void subscribe(android.content.Context, java.lang.String);
     public static void unsubscribe(android.content.Context, java.lang.String);
 }
@@ -31,4 +32,26 @@
     public <init>(android.content.Context, java.util.Map);
 }
 
--keep public class co.ronash.pushe.service.UpdateReceiver
+-keep public class co.ronash.pushe.receiver.UpdateReceiver
+
+
+# google gms proguard
+-keep public class com.google.android.gms.**
+-dontwarn com.google.android.gms.**
+
+# google paly services proguard
+-keep class * extends java.util.ListResourceBundle {
+    protected Object[][] getContents();
+}
+
+-keep public class com.google.android.gms.common.internal.safeparcel.SafeParcelable {
+    public static final *** NULL;
+}
+
+-keepnames @com.google.android.gms.common.annotation.KeepName class *
+-keepclassmembernames class * {
+    @com.google.android.gms.common.annotation.KeepName *;
+}
+
+-keepnames class * implements android.os.Parcelable {
+    public static final ** CREATOR;}

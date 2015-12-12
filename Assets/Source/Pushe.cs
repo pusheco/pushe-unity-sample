@@ -6,10 +6,10 @@ public class Pushe : MonoBehaviour
 	private AndroidJavaObject activityContext = null;
 	public bool showGooglePlayDialog = true;
 	public string channel = "pusheUnityChannel";
-
-
+	
+	
 	void Start() 
-    {
+	{
 		try
 		{
 			AndroidJavaClass activityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
@@ -21,24 +21,24 @@ public class Pushe : MonoBehaviour
 			
 			if (pluginClass != null)
 			{
-
+				
 				activityContext.Call("runOnUiThread", new AndroidJavaRunnable(() =>
-				{
+				                                                              {
 					//calling initialize static method
-                    pluginClass.CallStatic("initialize", new object[2] { activityContext, showGooglePlayDialog });
+					pluginClass.CallStatic("initialize", new object[2] { activityContext, showGooglePlayDialog });
 					// subscribe to a channel
 					pluginClass.CallStatic("subscribe", new object[2] { activityContext, channel});
-
-					pluginClass.CallStatic("unsubscribe", new object[2] { activityContext, "dummyChannel"});
+					// unsubscribe from a channel
+					pluginClass.CallStatic("unsubscribe", new object[2] { activityContext, "subscribed channel name"});
 				}));
-
-
-
+				
+				
+				
 			}
 		}
 		catch
 		{
 		}
 	}
-
+	
 }

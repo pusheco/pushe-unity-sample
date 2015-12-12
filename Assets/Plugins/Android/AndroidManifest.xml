@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.unity3d.player"
+	android:installLocation="preferExternal"
+    android:versionCode="1"
+    android:versionName="1.0">
+    <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true"
+        android:anyDensity="true"/>
+        <permission
+    android:name="co.ronash.pushesampleunity.permission.C2D_MESSAGE"
+    android:protectionLevel="signature" />
+    
+		<uses-permission android:name="co.ronash.pushesampleunity.permission.C2D_MESSAGE" />
+
+		<!-- Optional permissions -->
+		<uses-permission android:name="android.permission.GET_TASKS" />
+		<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+		<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+		<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+		<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+    <application
+		android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+		android:icon="@drawable/app_icon"
+        android:label="@string/app_name"
+        android:debuggable="true">
+        <activity android:name="com.unity3d.player.UnityPlayerActivity"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
+        </activity>
+        <receiver android:name="co.ronash.pushe.receiver.UpdateReceiver" >
+	    <intent-filter>
+	        <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+	        <data
+	            android:path="co.ronash.pushesampleunity"
+	            android:scheme="package" />
+	    </intent-filter>
+		</receiver>
+		<receiver
+		    android:name="com.google.android.gms.gcm.GcmReceiver"
+		    android:exported="true"
+		    android:permission="com.google.android.c2dm.permission.SEND" >
+		    <intent-filter>
+		        <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+		        <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+		        <category android:name="co.ronash.pushesampleunity" />
+		    </intent-filter>
+		</receiver>
+
+		<meta-data android:name="co.ronash.pushe.token" android:value="31-4442-45_571172864724"/>
+		    </application>
+		</manifest>
