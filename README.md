@@ -15,7 +15,7 @@ To see our demo app or its wiki page you may take a look at:
 
 ###Import Pushe to project
 
-1. Download [Pushe.unitypackage](http://static.pushe.co/sdk/pushe-0.8.3.unitypackage)
+1. Download [Pushe.unitypackage](http://static.pushe.co/1-0-0/Pushe-v1.0.0.unitypackage)
 2. Right click on `Assets` and select `import package/custom package` and browse downloaded file
 3. Drag `PusheGameObject` prefab from `Assets/Source` to `Hierarchy` window
 
@@ -23,7 +23,7 @@ To see our demo app or its wiki page you may take a look at:
 
 1. Select `Build Settings` from `File` menu
 2. Select `Android` platform and click on `Player Settings`
-3. Set `Minimum API Level` to `16`
+3. Set `Minimum API Level` to `9`
 4. Set your application package name in `Bundle Identifier` field
 
 ###Change AndroidManifest.xml

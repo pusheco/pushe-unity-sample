@@ -1,6 +1,6 @@
 # Add project specific ProGuard rules here.
 # By default, the flags in this file are appended to flags specified
-# in /Users/hadi/Dev/SDK/Android/tools/proguard/proguard-android.txt
+# in /Users/Merka/Library/Android/sdk/tools/proguard/proguard-android.txt
 # You can edit the include path and order by changing the proguardFiles
 # directive in build.gradle.
 #
@@ -16,20 +16,18 @@
 #   public *;
 #}
 
+
 #Ronash proguard
 -keep public class co.ronash.pushe.Pushe {
-    public static void initialize(android.app.Activity, boolean);
+    public static void initialize(android.content.Context, boolean);
     public static void subscribe(android.content.Context, java.lang.String);
     public static void unsubscribe(android.content.Context, java.lang.String);
+    public static void setNotificationOff(android.content.Context);
+    public static void setNotificationOn(android.content.Context);
 }
 
 -keep public class co.ronash.pushe.PusheListenerService {
     public void onMessageReceived(org.json.JSONObject, org.json.JSONObject);
-}
-
--keep public class co.ronash.pushe.log.handlers.*
--keepclassmembers public class co.ronash.pushe.log.handlers.* {
-    public <init>(android.content.Context, java.util.Map);
 }
 
 -keep public class co.ronash.pushe.receiver.UpdateReceiver
@@ -55,3 +53,17 @@
 
 -keepnames class * implements android.os.Parcelable {
     public static final ** CREATOR;}
+
+-keep public class co.ronash.pushe.log.handlers.** { *; }
+-keep class org.json.** { *; }
+-keep interface org.json.** { *; }
+
+-keep class **.R
+-keep class **.R$* {
+    <fields>;
+}
+
+#below keep is just for PushePlugin (Pushe B4A Wrapper), no need to export it for pushe users
+-keep public class co.ronash.pushe.Constants {
+    public static final java.lang.String F_CUSTOM_CONTENT;
+}
