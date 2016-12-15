@@ -2,23 +2,25 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="co.ronash.pushe"
-    android:installLocation="preferExternal"
-    android:versionCode="10000"
-    android:versionName="1.0.0" >
-
+    android:installLocation="internalOnly"
+    android:versionCode="10010"
+    android:versionName="1.1.0" >
+    
     <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="22"
-        tools:overrideLibrary="net.vrallev.android.cat, com.evernote.android.job" />
-
+    android:minSdkVersion="9"
+    android:targetSdkVersion="22"
+    tools:overrideLibrary="net.vrallev.android.cat, com.evernote.android.job" />
+    
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    
     <application>
+        
         <service
             android:name="co.ronash.pushe.service.GcmService"
             android:exported="false" >
@@ -26,7 +28,7 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
-
+        
         <receiver
             android:name="co.ronash.pushe.receiver.FallbackGcmNetworkManagerReceiver"
             android:exported="true" >
@@ -34,28 +36,7 @@
                 <action android:name="co.ronash.pushe.CHECK_TASKS" />
             </intent-filter>
         </receiver>
-
-        <receiver android:name="co.ronash.pushe.receiver.BootAndScreenReceiver" >
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
-        <service android:name="co.ronash.pushe.service.ScreenStateService" >
-            <intent-filter>
-                <action android:name="co.ronash.pushe.service.ScreenStateService" />
-            </intent-filter>
-        </service>
-
-        <receiver android:name="co.ronash.pushe.receiver.PusheAppExistsReceiver" >
-            <intent-filter>
-                <action android:name="co.ronash.pushe.NOTIFY_APP" />
-            </intent-filter>
-        </receiver>
-
-        <activity android:name="co.ronash.pushe.activities.WebviewActivity" >
-        </activity>
-
+        
         <service
             android:name="co.ronash.pushe.service.FallbackGcmTaskRunner"
             android:exported="false" >
@@ -64,7 +45,7 @@
             </intent-filter>
         </service>
         <service
-            android:name="co.ronash.pushe.task.scheduler.gcm.GcmTaskRunner"
+            android:name="cco.ronash.pushe.task.scheduler.gcm.GcmTaskRunner"
             android:exported="true"
             android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE" >
             <intent-filter>
@@ -72,8 +53,8 @@
             </intent-filter>
         </service>
         <service
-            android:name="co.ronash.pushe.service.IntentTaskRunner"
-            android:exported="false" />
+        android:name="co.ronash.pushe.service.IntentTaskRunner"
+        android:exported="false" />
         <service
             android:name="co.ronash.pushe.service.InstanceIDService"
             android:exported="false" >
@@ -81,38 +62,67 @@
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
-
+        
         <activity
             android:name="co.ronash.pushe.activities.PopupDialogActivity"
             android:theme="@style/PusheTransparent" >
         </activity>
-
-        <service
-            android:name="com.evernote.android.job.gcm.PlatformGcmService"
-            android:exported="true"
-            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE" >
+        
+        <receiver android:name="co.ronash.pushe.receiver.BootAndScreenReceiver" >
             <intent-filter>
-                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        
+        <service android:name="co.ronash.pushe.service.ScreenStateService" >
+            <intent-filter>
+                <action android:name="co.ronash.pushe.service.ScreenStateService" />
             </intent-filter>
         </service>
-        <!-- evernote services -->
-        <service  android:name="com.evernote.android.job.v21.PlatformJobService"
+        
+        <activity android:name="co.ronash.pushe.activities.WebviewActivity" >
+        </activity>
+        
+        <receiver android:name="co.ronash.pushe.receiver.AppUsageAlarmReceiver" >
+        </receiver>
+        <receiver android:name="co.ronash.pushe.receiver.ConnectivityReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="co.ronash.pushe.receiver.AddReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.evernote.android.job.ADD_JOB_CREATOR" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="co.ronash.pushe.receiver.AppChangeReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_INSTALL" />
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />
+                
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        
+        <service
+        android:name="com.evernote.android.job.v21.PlatformJobService"
         android:exported="false"
         android:permission="android.permission.BIND_JOB_SERVICE" />
-        <service android:name="com.evernote.android.job.v14.PlatformAlarmService"
+        <service
+        android:name="com.evernote.android.job.v14.PlatformAlarmService"
         android:exported="false" />
         
         <receiver
             android:name="com.evernote.android.job.v14.PlatformAlarmReceiver"
             android:exported="false" >
             <intent-filter>
-                
-                <!-- Keep the filter for legacy intents -->
                 <action android:name="com.evernote.android.job.v14.RUN_JOB" />
                 <action android:name="net.vrallev.android.job.v14.RUN_JOB" />
             </intent-filter>
         </receiver>
-        
         <receiver
             android:name="com.evernote.android.job.JobBootReceiver"
             android:exported="false" >
@@ -121,6 +131,15 @@
             </intent-filter>
         </receiver>
         
+        <service
+            android:name="com.evernote.android.job.gcm.PlatformGcmService"
+            android:exported="true"
+            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE" >
+            <intent-filter>
+                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
+            </intent-filter>
+        </service>
+        
     </application>
-
+    
 </manifest>

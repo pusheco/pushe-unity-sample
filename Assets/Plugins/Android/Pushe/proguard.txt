@@ -24,6 +24,7 @@
     public static void unsubscribe(android.content.Context, java.lang.String);
     public static void setNotificationOff(android.content.Context);
     public static void setNotificationOn(android.content.Context);
+    public static boolean isPusheInitialized(android.content.Context);
 }
 
 -keep public class co.ronash.pushe.PusheListenerService {
@@ -39,7 +40,7 @@
 
 # google paly services proguard
 -keep class * extends java.util.ListResourceBundle {
-    protected Object[][] getContents();
+    protected java.lang.Object[][] getContents();
 }
 
 -keep public class com.google.android.gms.common.internal.safeparcel.SafeParcelable {
@@ -67,3 +68,16 @@
 -keep public class co.ronash.pushe.Constants {
     public static final java.lang.String F_CUSTOM_CONTENT;
 }
+
+
+#evernote Job scheduler
+-dontwarn com.evernote.android.job.gcm.**
+-dontwarn com.evernote.android.job.util.GcmAvailableHelper
+
+-keep public class com.evernote.android.job.v21.PlatformJobService
+-keep public class com.evernote.android.job.v14.PlatformAlarmService
+-keep public class com.evernote.android.job.v14.PlatformAlarmReceiver
+-keep public class com.evernote.android.job.JobBootReceiver
+-dontwarn com.evernote.android.job.v24.**
+-dontwarn com.evernote.android.job.v14.JobProxy14
+-dontwarn com.evernote.android.job.util.Device

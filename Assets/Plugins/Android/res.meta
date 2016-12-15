@@ -3,15 +3,7 @@ guid: cc63788f3ae92ee4dbd1e7ae1f608bb2
 folderAsset: yes
 timeCreated: 1466417845
 licenseType: Pro
-PluginImporter:
-  serializedVersion: 1
-  iconMap: {}
-  executionOrder: {}
-  isPreloaded: 0
-  platformData:
-    Any:
-      enabled: 1
-      settings: {}
+DefaultImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
