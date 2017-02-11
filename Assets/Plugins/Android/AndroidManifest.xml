@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.unity3d.player"
 	android:installLocation="preferExternal"
-    android:versionCode="2"
-    android:versionName="2.0">
+    android:versionCode="10020"
+    android:versionName="1.2.0">
     <supports-screens
         android:smallScreens="true"
         android:normalScreens="true"
@@ -15,6 +15,7 @@
   <uses-sdk
     android:minSdkVersion="9"
     android:targetSdkVersion="22"/>
+
 
 <uses-sdk
 	tools:overrideLibrary="co.ronash.pushe" />
@@ -26,8 +27,8 @@
 <!-- Optional permissions -->
 <uses-permission
 	android:name="android.permission.ACCESS_NETWORK_STATE"/>
-                        
-
+                
+                                     
   <application
 		android:theme="@style/UnityThemeSelector"
 		android:icon="@drawable/app_icon"
