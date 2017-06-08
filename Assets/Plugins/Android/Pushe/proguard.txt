@@ -18,6 +18,8 @@
 
 
 #Ronash proguard
+-keepattributes Exceptions
+
 -keep public class co.ronash.pushe.Pushe {
     public static void initialize(android.content.Context, boolean);
     public static void subscribe(android.content.Context, java.lang.String);
@@ -25,6 +27,10 @@
     public static void setNotificationOff(android.content.Context);
     public static void setNotificationOn(android.content.Context);
     public static boolean isPusheInitialized(android.content.Context);
+    public static String getPusheId(android.content.Context);
+    public static void sendCustomJsonToUser(android.content.Context, java.lang.String, java.lang.String);
+    public static void sendSimpleNotifToUser(android.content.Context, java.lang.String, java.lang.String, java.lang.String);
+    public static void sendAdvancedNotifToUser(android.content.Context, java.lang.String, java.lang.String);
 }
 
 -keep public class co.ronash.pushe.PusheListenerService {
@@ -69,7 +75,6 @@
     public static final java.lang.String F_CUSTOM_CONTENT;
 }
 
-
 #evernote Job scheduler
 -dontwarn com.evernote.android.job.gcm.**
 -dontwarn com.evernote.android.job.util.GcmAvailableHelper
@@ -78,6 +83,9 @@
 -keep public class com.evernote.android.job.v14.PlatformAlarmService
 -keep public class com.evernote.android.job.v14.PlatformAlarmReceiver
 -keep public class com.evernote.android.job.JobBootReceiver
+-keep public class com.evernote.android.job.JobRescheduleService
+
 -dontwarn com.evernote.android.job.v24.**
 -dontwarn com.evernote.android.job.v14.JobProxy14
 -dontwarn com.evernote.android.job.util.Device
+#-dontwarn net.vrallev.android.cat.**
