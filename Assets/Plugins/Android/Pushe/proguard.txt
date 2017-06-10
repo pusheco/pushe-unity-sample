@@ -27,7 +27,7 @@
     public static void setNotificationOff(android.content.Context);
     public static void setNotificationOn(android.content.Context);
     public static boolean isPusheInitialized(android.content.Context);
-    public static String getPusheId(android.content.Context);
+    public static java.lang.String getPusheId(android.content.Context);
     public static void sendCustomJsonToUser(android.content.Context, java.lang.String, java.lang.String);
     public static void sendSimpleNotifToUser(android.content.Context, java.lang.String, java.lang.String, java.lang.String);
     public static void sendAdvancedNotifToUser(android.content.Context, java.lang.String, java.lang.String);

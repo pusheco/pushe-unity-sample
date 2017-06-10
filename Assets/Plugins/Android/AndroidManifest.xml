@@ -70,6 +70,7 @@
 
 <meta-data android:name="co.ronash.pushe.token" android:value="PUSHE_76583046756"/>
 <meta-data android:name="co.ronash.pushe.cr" android:value="aHR0cDovLzcxOTI5YWQ2ZGEyNjQ4ZDhhMWE5ZDQxNmEwZGRmNWExOjE0ZTM5ZWMyZTE2OTRhNWM4MGNkNzMzYTIyYjlkZmE2QGNhLnB1c2hlLmlyLzQxNDI="/>
-       
+
+  
 </application>
 </manifest>

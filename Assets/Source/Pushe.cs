@@ -68,12 +68,18 @@ public class Pushe : MonoBehaviour
 					{
 						//calling initialize static method
 						pluginClass.CallStatic("initialize", new object[2] { activityContext, showGooglePlayDialog });
+						//sample usage of Subscribe and other methods: use subscribe and sentNotifToUser after a chack on 'PusheIsInitialized()'
+						/*
+						  if(PusheIsInitialized()){
+									Subscribe("unity_test_topic");
+									print("pusheID is " + GetPusgeId());
+									SendSimpleNotifToUser("pid_ac70-e04e-3a", "device to device msg", "unity d2d msg");
+						}
+						*/
 					} ) );
 
 			}
-			//sample usage of Subscribe method: use it after a chack on 'PusheIsInitialized()'
-			//if(PusheIsInitialized())
-			//	Subscribe("unity_test_topic");
+
 		}
 		catch
 		{
@@ -136,8 +142,8 @@ public class Pushe : MonoBehaviour
 	}
 
 	/**
-	 * Call this method to disable publishing notification to user.
-	 * To enable showing notifications again, you need to call SetNotificationOn()
+	 * Call this method to check if pushe is initialized.
+	 * It is needed before call to un/subscribe, and sendNotif to user methods
 	 **/
 	public static bool PusheIsInitialized(){
 		AndroidJavaClass activityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
@@ -149,4 +155,56 @@ public class Pushe : MonoBehaviour
 		return false;
 	}
 
+	/**
+	 * Call this method to get this device pusheId.
+	 * It is needed for call to and sendNotif to user methods
+	 **/
+	public static string GetPusgeId(){
+		AndroidJavaClass activityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+		AndroidJavaObject context = activityClass.GetStatic<AndroidJavaObject>("currentActivity");
+		AndroidJavaClass pluginClass = new AndroidJavaClass("co.ronash.pushe.Pushe");
+		if (pluginClass != null) {
+			return pluginClass.CallStatic<string>("getPusheId", new object[1] {context});
+		}
+		return "";
+	}
+
+	/**
+	 * Call this method to send simple notification from client to another client.
+	 **/
+	public static void SendSimpleNotifToUser(string userPusheId, string title, string content){
+		AndroidJavaClass activityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+		AndroidJavaObject context = activityClass.GetStatic<AndroidJavaObject>("currentActivity");
+		AndroidJavaClass pluginClass = new AndroidJavaClass("co.ronash.pushe.Pushe");
+		if (pluginClass != null) {
+			pluginClass.CallStatic("sendSimpleNotifToUser", new object[4] {context, userPusheId, title, content});
+		}
+	}
+
+	/**
+	 * Call this method to send advanced notification from client to another client.
+	 * You need to prepare advanced notification as a valid json string.
+	 **/
+	public static void SendAdvancedNotifToUser(string userPusheId, string notificationJson){
+		AndroidJavaClass activityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+		AndroidJavaObject context = activityClass.GetStatic<AndroidJavaObject>("currentActivity");
+		AndroidJavaClass pluginClass = new AndroidJavaClass("co.ronash.pushe.Pushe");
+		if (pluginClass != null) {
+			pluginClass.CallStatic("sendAdvancedNotifToUser", new object[3] {context, userPusheId, notificationJson});
+		}
+	}
+
+	//
+	/**
+	 * Call this method to send any content you like to another client.
+	 * You need to prepare this content as a valid json string.
+	 **/
+	public static void SendCustomJsonToUser(string userPusheId, string customJson){
+		AndroidJavaClass activityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+		AndroidJavaObject context = activityClass.GetStatic<AndroidJavaObject>("currentActivity");
+		AndroidJavaClass pluginClass = new AndroidJavaClass("co.ronash.pushe.Pushe");
+		if (pluginClass != null) {
+			pluginClass.CallStatic("sendCustomJsonToUser", new object[3] {context, userPusheId, customJson});
+		}
+	}
 }
