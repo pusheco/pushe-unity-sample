@@ -15,7 +15,7 @@ To see our demo app or its wiki page you may take a look at:
 
 ###Import Pushe to project
 
-1. Download [Pushe.unitypackage](http://static.pushe.co/1-0-0/Pushe-v1.0.0.unitypackage)
+1. Download [Pushe.unitypackage](http://static.pushe.co/1.3.1/pushe-v1.3.1.unitypackage)
 2. Right click on `Assets` and select `import package/custom package` and browse downloaded file
 3. Drag `PusheGameObject` prefab from `Assets/Source` to `Hierarchy` window
 
@@ -44,5 +44,4 @@ For detailed documentations visit http://docs.pushe.co
 ## Support 
 #### Email:
 support [at] pushe.co
-#### Phone:
-+98-21-44668276 (8:00 to 17:00 Sat-Thu)
+

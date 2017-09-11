@@ -1,48 +1,4 @@
-﻿//using UnityEngine;
-//using System.Collections;
-//
-//public class Pushe : MonoBehaviour 
-//{
-//	private AndroidJavaObject activityContext = null;
-//	public bool showGooglePlayDialog = true;
-//	public string channel = "pusheUnityChannel";
-//	
-//	
-//	void Start() 
-//	{
-//		try
-//		{
-//			AndroidJavaClass activityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-//			
-//			//getting context of unity activity
-//			activityContext = activityClass.GetStatic<AndroidJavaObject>("currentActivity");
-//			//calling plugin class by package name
-//			AndroidJavaClass pluginClass = new AndroidJavaClass("co.ronash.pushe.Pushe");
-//			
-//			if (pluginClass != null)
-//			{
-//				
-//				activityContext.Call("runOnUiThread", new AndroidJavaRunnable(() =>
-//				                                                              {
-//					//calling initialize static method
-//					pluginClass.CallStatic("initialize", new object[2] { activityContext, showGooglePlayDialog });
-//					// subscribe to a channel
-//					pluginClass.CallStatic("subscribe", new object[2] { activityContext, channel});
-//					// unsubscribe from a channel
-//					pluginClass.CallStatic("unsubscribe", new object[2] { activityContext, "subscribed channel name"});
-//				}));
-//				
-//				
-//				
-//			}
-//		}
-//		catch
-//		{
-//		}
-//	}
-//	
-//}
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class Pushe : MonoBehaviour 
@@ -69,13 +25,13 @@ public class Pushe : MonoBehaviour
 						//calling initialize static method
 						pluginClass.CallStatic("initialize", new object[2] { activityContext, showGooglePlayDialog });
 						//sample usage of Subscribe and other methods: use subscribe and sentNotifToUser after a chack on 'PusheIsInitialized()'
-						/*
+						print("unity sample: pusheID is " + GetPusheId());
 						  if(PusheIsInitialized()){
 									Subscribe("unity_test_topic");
-									print("pusheID is " + GetPusgeId());
+									//print("pusheID is " + GetPusheId());
 									SendSimpleNotifToUser("pid_ac70-e04e-3a", "device to device msg", "unity d2d msg");
 						}
-						*/
+
 					} ) );
 
 			}
@@ -159,7 +115,7 @@ public class Pushe : MonoBehaviour
 	 * Call this method to get this device pusheId.
 	 * It is needed for call to and sendNotif to user methods
 	 **/
-	public static string GetPusgeId(){
+	public static string GetPusheId(){
 		AndroidJavaClass activityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
 		AndroidJavaObject context = activityClass.GetStatic<AndroidJavaObject>("currentActivity");
 		AndroidJavaClass pluginClass = new AndroidJavaClass("co.ronash.pushe.Pushe");

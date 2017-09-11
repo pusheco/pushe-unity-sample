@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/pushe_border">
+
+    <ImageView
+        android:id="@+id/pusheCloseIV"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:layout_margin="10dp" />
+
+    <LinearLayout
+        android:id="@+id/pushe_ll1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/pusheDialogTitleTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:layout_margin="10dp"
+                android:text="Title"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"/>
+
+            <ImageView
+                android:id="@+id/pusheDialogIV"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_launcher"
+                android:layout_gravity="center_vertical"
+                />
+        </LinearLayout>
+
+            <TextView
+                android:id="@+id/pusheDialogContentTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="right"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="10dp"
+                android:text="سلام"
+                android:textColor="#ff000000"
+                android:maxLines="20"
+                android:scrollbars = "vertical"/>
+
+        <LinearLayout
+            android:id="@+id/pushe_ll2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/pusheDialogCancelBtn"
+                android:layout_width="0px"
+                android:layout_height="30dp"
+                android:layout_below="@+id/text_dialog"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/pushe_btn_selector"
+                android:text="@string/pushe_imei_dialog_cancel"
+                android:textColor="#ffffffff"
+                android:textSize="14sp"/>
+
+            <Button
+                android:id="@+id/pusheDialogOkBtn"
+                android:layout_width="0px"
+                android:layout_height="30dp"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/pushe_btn_selector"
+                android:text="@string/pushe_imei_dialog_accept"
+                android:textColor="#ffffffff"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>
