@@ -31,13 +31,17 @@
     public static void sendCustomJsonToUser(android.content.Context, java.lang.String, java.lang.String);
     public static void sendSimpleNotifToUser(android.content.Context, java.lang.String, java.lang.String, java.lang.String);
     public static void sendAdvancedNotifToUser(android.content.Context, java.lang.String, java.lang.String);
+#    public static void sendData(android.content.Context, java.lang.String, java.lang.String);
 }
+
+-keepattributes Exceptions
 
 -keep public class co.ronash.pushe.PusheListenerService {
     public void onMessageReceived(org.json.JSONObject, org.json.JSONObject);
 }
 
 -keep public class co.ronash.pushe.receiver.UpdateReceiver
+-keep public class co.ronash.pushe.receiver.PusheGcmReceiver
 
 
 # google gms proguard
@@ -61,6 +65,7 @@
 -keepnames class * implements android.os.Parcelable {
     public static final ** CREATOR;}
 
+#for removing all logs
 -keep public class co.ronash.pushe.log.handlers.** { *; }
 -keep class org.json.** { *; }
 -keep interface org.json.** { *; }
@@ -88,4 +93,4 @@
 -dontwarn com.evernote.android.job.v24.**
 -dontwarn com.evernote.android.job.v14.JobProxy14
 -dontwarn com.evernote.android.job.util.Device
-#-dontwarn net.vrallev.android.cat.**
+-dontwarn net.vrallev.android.cat.**

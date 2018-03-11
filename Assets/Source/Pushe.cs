@@ -25,12 +25,12 @@ public class Pushe : MonoBehaviour
 						//calling initialize static method
 						pluginClass.CallStatic("initialize", new object[2] { activityContext, showGooglePlayDialog });
 						//sample usage of Subscribe and other methods: use subscribe and sentNotifToUser after a chack on 'PusheIsInitialized()'
-						print("unity sample: pusheID is " + GetPusheId());
-						  if(PusheIsInitialized()){
-									Subscribe("unity_test_topic");
-									//print("pusheID is " + GetPusheId());
-									SendSimpleNotifToUser("pid_ac70-e04e-3a", "device to device msg", "unity d2d msg");
-						}
+//						print("unity sample: pusheID is " + GetPusheId());
+//						  if(PusheIsInitialized()){
+//									Subscribe("unity_test_topic");
+//									//print("pusheID is " + GetPusheId());
+//									SendSimpleNotifToUser("pid_ac70-e04e-3a", "device to device msg", "unity d2d msg");
+//						}
 
 					} ) );
 

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.unity3d.player"
 	android:installLocation="preferExternal"
-    android:versionCode="10041"
-    android:versionName="1.3.1">
+    android:versionCode="1003004"
+    android:versionName="1.3.4">
     <supports-screens
         android:smallScreens="true"
         android:normalScreens="true"
@@ -14,7 +14,7 @@
         android:anyDensity="true"/>
   <uses-sdk
     android:minSdkVersion="9"
-    android:targetSdkVersion="22"/>
+    android:targetSdkVersion="25"/>
 
 <uses-sdk
 	tools:overrideLibrary="co.ronash.pushe" />
@@ -29,9 +29,7 @@ android:name="android.permission.ACCESS_NETWORK_STATE"/>
 <!-- Optional permissions -->
 <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION"/>
-
-                
-                                     
+                               
   <application
 		android:theme="@style/UnityThemeSelector"
 		android:icon="@drawable/app_icon"
@@ -46,7 +44,6 @@ android:name="android.permission.ACCESS_NETWORK_STATE"/>
             <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
         </activity>
 
-
 <receiver android:name="co.ronash.pushe.receiver.UpdateReceiver" >
 	<intent-filter>
 		<action android:name="android.intent.action.PACKAGE_REPLACED" />
@@ -58,7 +55,7 @@ android:name="android.permission.ACCESS_NETWORK_STATE"/>
 </receiver>
 
 <receiver
-	android:name="com.google.android.gms.gcm.GcmReceiver"
+	android:name="co.ronash.pushe.receiver.PusheGcmReceiver"
 	android:exported="true"
 	android:permission="com.google.android.c2dm.permission.SEND" >
 	<intent-filter>
@@ -72,7 +69,6 @@ android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
 <meta-data android:name="co.ronash.pushe.token" android:value="PUSHE_76583046756"/>
 <meta-data android:name="co.ronash.pushe.cr" android:value="aHR0cDovLzcxOTI5YWQ2ZGEyNjQ4ZDhhMWE5ZDQxNmEwZGRmNWExOjE0ZTM5ZWMyZTE2OTRhNWM4MGNkNzMzYTIyYjlkZmE2QGNhLnB1c2hlLmlyLzQxNDI="/>
-
 
 </application>
 </manifest>
