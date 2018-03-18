@@ -149,8 +149,7 @@ public class Pushe : MonoBehaviour
 			pluginClass.CallStatic("sendAdvancedNotifToUser", new object[3] {context, userPusheId, notificationJson});
 		}
 	}
-
-	//
+		
 	/**
 	 * Call this method to send any content you like to another client.
 	 * You need to prepare this content as a valid json string.
@@ -161,6 +160,38 @@ public class Pushe : MonoBehaviour
 		AndroidJavaClass pluginClass = new AndroidJavaClass("co.ronash.pushe.Pushe");
 		if (pluginClass != null) {
 			pluginClass.CallStatic("sendCustomJsonToUser", new object[3] {context, userPusheId, customJson});
+		}
+	}
+
+	/**
+	 * Create a custom notification channel. This methos works for android 8+
+	 * On lower android version, call to this method has no effect
+	 **/
+	public static void CreateNotificationChannel(string channelId, string channelName,
+		string description, int importance,
+		bool enableLight, bool enableVibration,
+		bool showBadge, int ledColor, long[] vibrationPattern){
+		AndroidJavaClass activityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+		AndroidJavaObject context = activityClass.GetStatic<AndroidJavaObject>("currentActivity");
+		AndroidJavaClass pluginClass = new AndroidJavaClass("co.ronash.pushe.Pushe");
+		if (pluginClass != null) {
+			pluginClass.CallStatic("createNotificationChannel", 
+				new object[10] {context, channelId, channelName, description, importance, enableLight, 
+					enableVibration, showBadge, ledColor, vibrationPattern});
+		}
+	}
+
+	/**
+	 * Remove a custom notification channel. This methos works for android 8+
+	 * On lower android version, call to this method has no effect
+	 **/
+	public static void RemoveNotificationChannel(string channelId){
+		AndroidJavaClass activityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+		AndroidJavaObject context = activityClass.GetStatic<AndroidJavaObject>("currentActivity");
+		AndroidJavaClass pluginClass = new AndroidJavaClass("co.ronash.pushe.Pushe");
+		if (pluginClass != null) {
+			pluginClass.CallStatic("removeNotificationChannel", 
+				new object[2] {context, channelId});
 		}
 	}
 }

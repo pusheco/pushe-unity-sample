@@ -32,9 +32,9 @@
     public static void sendSimpleNotifToUser(android.content.Context, java.lang.String, java.lang.String, java.lang.String);
     public static void sendAdvancedNotifToUser(android.content.Context, java.lang.String, java.lang.String);
 #    public static void sendData(android.content.Context, java.lang.String, java.lang.String);
+    public static void createNotificationChannel(android.content.Context, java.lang.String, java.lang.String, java.lang.String, int, boolean, boolean, boolean, int, long[]);
+    public static void removeNotificationChannel(android.content.Context, java.lang.String);
 }
-
--keepattributes Exceptions
 
 -keep public class co.ronash.pushe.PusheListenerService {
     public void onMessageReceived(org.json.JSONObject, org.json.JSONObject);
@@ -66,7 +66,7 @@
     public static final ** CREATOR;}
 
 #for removing all logs
--keep public class co.ronash.pushe.log.handlers.** { *; }
+-keep public class co.ronash.pushe.internal.log.handlers.SentryHandler { *; }
 -keep class org.json.** { *; }
 -keep interface org.json.** { *; }
 
@@ -89,8 +89,3 @@
 -keep public class com.evernote.android.job.v14.PlatformAlarmReceiver
 -keep public class com.evernote.android.job.JobBootReceiver
 -keep public class com.evernote.android.job.JobRescheduleService
-
--dontwarn com.evernote.android.job.v24.**
--dontwarn com.evernote.android.job.v14.JobProxy14
--dontwarn com.evernote.android.job.util.Device
--dontwarn net.vrallev.android.cat.**
