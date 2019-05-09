@@ -13,6 +13,10 @@
 *.userprefs
 *.pidb
 *.booproj
+*.meta
+
+Assets/Plugins/Android/*.jar
+Assets/Plugins/Android/*.aar
 
 # Unity3D generated meta files
 *.pidb.meta

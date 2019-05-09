@@ -1,0 +1,62 @@
+<dependencies>
+  <!-- Android dependencies are specified under the "androidPackages" element.
+       Each "androidPackage" element contains the attributes of an Android
+       dependency (e.g AAR, JAR reference). -->
+  <androidPackages>
+    
+    <androidPackage spec="com.android.support:support-v4:27.0.0">
+      <repositories>
+        <repository>https://maven.google.com</repository>
+      </repositories>
+    </androidPackage>
+	
+	<androidPackage spec="com.google.android.gms:play-services-gcm:16.0.0">
+      <repositories>
+        <repository>https://maven.google.com</repository>
+      </repositories>
+    </androidPackage>
+	<androidPackage spec="com.google.android.gms:play-services-ads:16.0.0">
+      <repositories>
+        <repository>https://maven.google.com</repository>
+      </repositories>
+    </androidPackage>
+	<androidPackage spec="com.google.firebase:firebase-iid:16.0.0">
+      <repositories>
+        <repository>https://maven.google.com</repository>
+      </repositories>
+    </androidPackage>
+	
+	<androidPackage spec="com.google.firebase:firebase-messaging:17.4.0">
+      <repositories>
+        <repository>https://maven.google.com</repository>
+      </repositories>
+    </androidPackage>
+	
+	<androidPackage spec="co.ronash.android:pushe-base:1.6.3">
+      <repositories>
+        <repository>https://jcenter.bintray.com</repository>
+      </repositories>
+    </androidPackage>
+	
+	<androidPackage spec="com.google.android.gms:play-services-tasks:16.0.0">
+      <repositories>
+        <repository>https://maven.google.com</repository>
+      </repositories>
+    </androidPackage>
+	
+	<androidPackage spec="com.google.android.gms:play-services-location:16.0.0" />
+	
+	
+	<androidPackage spec="com.evernote:android-job:1.2.6">
+		<repositories>
+        <repository>https://maven.google.com</repository>
+      </repositories>
+	</androidPackage>
+	
+	
+	
+  </androidPackages>
+
+  <iosPods>
+  </iosPods>
+</dependencies>

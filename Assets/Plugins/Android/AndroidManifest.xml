@@ -16,12 +16,7 @@
     android:minSdkVersion="14"
     android:targetSdkVersion="25"/>
 
-<uses-sdk
-	tools:overrideLibrary="co.ronash.pushe" />
 
-<permission
-	android:name="co.ronash.pushesampleunity.permission.C2D_MESSAGE"
-	android:protectionLevel="signature" />
 <uses-permission
 	android:name="co.ronash.pushesampleunity.permission.C2D_MESSAGE" />
 <uses-permission
@@ -44,42 +39,8 @@ android:name="android.permission.ACCESS_NETWORK_STATE"/>
             <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
         </activity>
 
-	<receiver android:name="co.ronash.pushe.receiver.UpdateReceiver" >
-		<intent-filter>
-			<action android:name="android.intent.action.PACKAGE_REPLACED" />
-
-			<data
-				android:path="co.ronash.pushesampleunity"
-				android:scheme="package" />
-		</intent-filter>
-	</receiver>
-
-    <receiver
-        android:name="com.google.android.gms.gcm.GcmReceiver"
-        android:exported="true"
-        android:permission="com.google.android.c2dm.permission.SEND" >
-        <intent-filter>
-            <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-
-            <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-            <category android:name="${applicationId}" />
-        </intent-filter>
-    </receiver>
-
-    <provider
-        android:name="co.ronash.pushe.provider.PusheProvider"
-        android:authorities="co.ronash.pushesampleunity.co.ronash.pushe.pusheprovider"
-        android:exported="false"
-        android:enabled="true"
-        android:grantUriPermissions="true">
-        <meta-data
-            android:name="android.support.FILE_PROVIDER_PATHS"
-            android:resource="@xml/provider_paths" />
-    </provider>
-
-<meta-data android:name="co.ronash.pushe.token" android:value="PUSHE_76583046756"/>
-<meta-data android:name="co.ronash.pushe.cr" android:value="aHR0cDovLzcxOTI5YWQ2ZGEyNjQ4ZDhhMWE5ZDQxNmEwZGRmNWExOjE0ZTM5ZWMyZTE2OTRhNWM4MGNkNzMzYTIyYjlkZmE2QGNhLnB1c2hlLmlyLzQxNDI="/>
+	
+		<meta-data android:name="co.ronash.pushe.token" android:value="PUSHE_76583046756"/>
 
 </application>
 </manifest>
