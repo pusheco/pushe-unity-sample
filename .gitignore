@@ -18,6 +18,7 @@
 Assets/Plugins/Android/*.jar
 Assets/Plugins/Android/*.aar
 
+.idea/
 # Unity3D generated meta files
 *.pidb.meta
 
