@@ -1,0 +1,31 @@
+<dependencies>
+	
+	<!-- In this situation you should delete -->
+	
+	<androidPackages>
+		<androidPackage spec="co.pushe.plus:core:2.0.0">                                          
+			<repositories>                                                            
+				<repository>https://dl.bintray.com/pushe/plus</repository>                            
+			</repositories>                                                           
+		</androidPackage>
+		<androidPackage spec="co.pushe.plus:notification:2.0.0">                                          
+			<repositories>                                                            
+				<repository>https://dl.bintray.com/pushe/plus</repository>                            
+			</repositories>                                                           
+		</androidPackage>
+		<androidPackage spec="co.pushe.plus:datalytics:2.0.0">                                          
+			<repositories>                                                            
+				<repository>https://dl.bintray.com/pushe/plus</repository>                            
+			</repositories>                                                           
+		</androidPackage>
+		
+		<androidPackage spec="callback.jar">
+			<repositories>
+				<repository>Assets/Pushe/libs</repository>
+			</repositories>
+		</androidPackage>
+	</androidPackages>                                                                
+  
+  <iosPods>
+  </iosPods>
+</dependencies>
