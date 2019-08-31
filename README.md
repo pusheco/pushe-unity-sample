@@ -12,7 +12,8 @@
 
 ### Import Pushe to the project
 
-* Download the latest package from the [documents](https://pushe.co/docs/unity/)
+* Download the latest package from the [documents](https://pushe.co/docs/unity/) or right here.
+> Checkout [ChangeLog](https://github.com/pusheco/unity-sample/blob/master/CHANGELOG.md) for more details.
 
 * Right click on `Assets` and select `Import package => Custom package` and browse downloaded file <br>
 
