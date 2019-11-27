@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -9,6 +10,7 @@ using UnityEngine;
 public static class Pushe
 {
     private const string PushePath = "co.pushe.plus.Pushe";
+    private const string PusheExtPath = "co.pushe.plus.ext.PusheExt";
 
 
     /// <summary>
@@ -20,7 +22,7 @@ public static class Pushe
     }
 
     /// <summary>
-    /// Returns true if all pushe modules Core, notification, etc.) were initialized.
+    /// Returns true if all pushe modules (Core, notification, etc.) were initialized.
     /// </summary>
     public static bool IsInitialized()
     {
@@ -75,7 +77,6 @@ public static class Pushe
 
     public static void SubscribeTo(string topic)
     {
-        Debug.Log("Subscribing to topic...");
         PusheNative().CallStatic("subscribeToTopic", topic, null);
     }
 
@@ -84,10 +85,14 @@ public static class Pushe
         Debug.Log("Unsubscribe from topic...");
         PusheNative().CallStatic("unsubscribeFromTopic", topic, null);
     }
+    
+    public static string[] GetSubscribedTopics()
+    {
+        return PusheExt().CallStatic<string>("getSubscribedTopicsCsv").Split(',');
+    }
 
     public static void SetCustomId(string id)
     {
-        Debug.Log("Setting custom id");
         PusheNative().CallStatic("setCustomId", id);
     }
 
@@ -116,19 +121,78 @@ public static class Pushe
         return PusheNative().CallStatic<string>("getUserPhoneNumber");
     }
 
-    public static void AddTag(string tag)
+    public static void AddTags(IDictionary<string, string> tags)
     {
-        PusheNative().CallStatic("addTag", tag);
+        var mapOfTags = CreateJavaMapFromDictionary(tags);
+        PusheNative().CallStatic("addTags", mapOfTags);
     }
 
-    public static void RemoveTag(string tag)
+    public static void RemoveTag(params string[] tags)
     {
-        PusheNative().CallStatic("removeTag", tag);
+        var tagsToRemove = CreateJavaArrayList(tags);
+        PusheNative().CallStatic("removeTags", tagsToRemove);
     }
+
+    public static Dictionary<string, string> GetSubscribedTags()
+    {
+        var tagsJavaMap = PusheExt().CallStatic<string>("getSubscribedTagsJson");
+        Log(tagsJavaMap);
+        return new Dictionary<string, string>();
+    }
+
+    // Private section
 
     private static AndroidJavaClass PusheNative()
     {
         return new AndroidJavaClass(PushePath);
+    }
+
+    private static AndroidJavaObject CreateJavaArrayList(params string[] elements)
+    {
+        var list = new AndroidJavaObject("java.util.ArrayList");
+        foreach (var element in elements)
+        {
+            list.Call("add", element);
+        }
+
+        return list;
+    }
+
+    private static AndroidJavaObject CreateJavaMapFromDictionary(IDictionary<string, string> parameters)
+    {
+        var javaMap = new AndroidJavaObject("java.util.HashMap");
+        var putMethod = AndroidJNIHelper.GetMethodID(
+            javaMap.GetRawClass(), "put",
+            "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+
+        var args = new object[2];
+        foreach (var kvp in parameters)
+        {
+            using (var k = new AndroidJavaObject(
+                "java.lang.String", kvp.Key))
+            {
+                using (var v = new AndroidJavaObject(
+                    "java.lang.String", kvp.Value))
+                {
+                    args[0] = k;
+                    args[1] = v;
+                    AndroidJNI.CallObjectMethod(javaMap.GetRawObject(),
+                        putMethod, AndroidJNIHelper.CreateJNIArgArray(args));
+                }
+            }
+        }
+
+        return javaMap;
+    }
+
+    public static void Log(string message)
+    {
+        Debug.Log("Pushe: " + message);
+    }
+
+    public static AndroidJavaClass PusheExt()
+    {
+        return new AndroidJavaClass(PusheExtPath);
     }
 }
 

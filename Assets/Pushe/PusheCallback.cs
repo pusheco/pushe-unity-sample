@@ -9,14 +9,27 @@ using UnityEngine;
 /// In order to work this script must be attached to a game object (Which already is, to Pushe.prefab)
 /// It will be called by PusheCallback when a message was arrived.
 ///
+/// NOTE: This script is connected to the android native code using it's names. DO NOT rename the script and method names.
+/// 
 /// NOTE: Callback will not work if the app was not on foreground. The unity engine won't work on background.
 /// This class doesn't need to be modified by the user.
 /// </summary>
 public class PusheCallback : MonoBehaviour
 {
-    public void PusheOnNotification(string notificationData)
+
+    /// <summary>
+    /// If you are not willing to override your application class for any reasons, you can call this function instead.
+    /// NOTE: The callbacks will be called once this function gets called and app is not closed.
+    /// NOTE: If you call this, don't override your application class, otherwise you'll get callbacks two times for each event.
+    /// </summary>
+    public static void InitializeNotificationListeners()
     {
-        Debug.Log(notificationData);
+        Pushe.PusheExt().CallStatic("initializeNotificationListener");
+    }
+    
+    public void OnNotification(string notificationData)
+    {
+        Pushe.Log(notificationData);
         var data = JsonUtility.FromJson<NotificationData>(notificationData);
         if (PusheNotification.Listener != null)
         {
@@ -24,17 +37,17 @@ public class PusheCallback : MonoBehaviour
         }
     }
 
-    public void PusheOnCustomContentNotification(string notificationData)
+    public void OnCustomContentNotification(string notificationData)
     {
-        Debug.Log(notificationData);
+        Pushe.Log(notificationData);
         var data = JsonUtility.FromJson<NotificationData>(notificationData);
         if (PusheNotification.Listener == null) return;
         PusheNotification.Listener.OnCustomContentReceived(data.customContent);
     }
 
-    public void PusheOnNotificationClick(string notificationData)
+    public void OnNotificationClick(string notificationData)
     {
-        Debug.Log(notificationData);
+        Pushe.Log(notificationData);
         var data = JsonUtility.FromJson<NotificationData>(notificationData);
         if (PusheNotification.Listener != null)
         {
@@ -42,9 +55,9 @@ public class PusheCallback : MonoBehaviour
         }
     }
 
-    public void PusheOnNotificationDismiss(string notificationData)
+    public void OnNotificationDismiss(string notificationData)
     {
-        Debug.Log(notificationData);
+        Pushe.Log(notificationData);
         var data = JsonUtility.FromJson<NotificationData>(notificationData);
         if (PusheNotification.Listener != null)
         {
@@ -52,9 +65,9 @@ public class PusheCallback : MonoBehaviour
         }
     }
 
-    public void PusheOnNotificationButtonClick(string notificationDataAndButtonData)
+    public void OnNotificationButtonClick(string notificationDataAndButtonData)
     {
-        Debug.Log("Button clicked\n" + notificationDataAndButtonData);
+        Pushe.Log("Button clicked\n" + notificationDataAndButtonData);
         var data = JsonUtility.FromJson<NotificationDataAndButtonData>(notificationDataAndButtonData);
         if (PusheNotification.Listener != null)
         {
@@ -73,4 +86,13 @@ public class PusheCallback : MonoBehaviour
             return "\nButtonData: " + notificationData + "///" + clickedButton;
         }
     }
+    
+    
+    // util
+
+    public static void SetDebugMode(bool enabled)
+    {
+        Pushe.PusheExt().CallStatic("debuggingMode", enabled);
+    }
+    
 }

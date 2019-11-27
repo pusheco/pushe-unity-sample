@@ -7,6 +7,8 @@ obj/
 
 Temp/
 
+UnityPackageManager/
+
 unity-3\.apk
 
 *.user
@@ -22,6 +24,10 @@ Packages/
 Logs/
 
 *.meta
+
+*.unity
+
+Scenes/
 
 Assets/Plugins/Android/
 

@@ -1,0 +1,32 @@
+apply plugin: 'com.jfrog.bintray'
+
+
+group = publishedGroupId
+version = release.versionName
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = bintrayConfigurations
+    publications = bintrayPublications
+
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        userOrg = 'pushe'
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        dryRun = false
+        publish = true
+        override = true
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+        }
+    }
+}

@@ -1,17 +1,20 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+// ReSharper disable All
 
 public class SampleCode : MonoBehaviour
 {
     // Use this for initialization
     private void Start()
     {
-        Debug.Log("Starting script");
+        Pushe.Log("Starting Pushe sample script");
+        PusheCallback.SetDebugMode(true);
         InitializeSomeMethods();
     }
 
     private void InitializeSomeMethods()
     {
-        Debug.Log("Started registering Pushe");
+        Pushe.Log("Initializing Pushe initialization and registration callbacks");
         // Listen to Register
         Pushe.OnPusheRegistered(OnPusheRegisteredSuccessfully);
         // Listen to Initialize
@@ -20,7 +23,7 @@ public class SampleCode : MonoBehaviour
         PusheNotification.SetNotificationListener(new PusheNotifListener());
 
         // Check if pushe is already registered
-        Debug.Log(Pushe.IsRegistered() ? "Pushe is registered" : "Pushe is NOT registered!");
+        Pushe.Log(Pushe.IsRegistered() ? "Pushe is registered" : "Pushe is NOT registered!");
     }
 
 
@@ -29,15 +32,53 @@ public class SampleCode : MonoBehaviour
      */
     private void OnPusheRegisteredSuccessfully()
     {
-        Debug.Log("Pushe has been registered successfully.");
+
+
+        Pushe.Log("Pushe has been REGISTERED to server successfully.");
+        var adId = Pushe.GetGoogleAdvertisingId();
+        Pushe.Log("Ad id: " + adId);
+        
+        // Pushe Notification
+        
+        PusheNotification.SendNotificationToUser(
+            UserNotification.WithGoogleAdvertisementId(adId)
+                .SetTitle("Hello user")
+                .SetContent("How are you?")
+        );
+
+        Pushe.Log("Notification " + PusheNotification.IsNotificationEnabled());
+        Pushe.Log("Custom sound " + PusheNotification.IsCustomSoundEnabled());
+        PusheNotification.CreateNotificationChannel("CustomChannel", "CustomChannel");
+        
+        // Analytics
+        PusheAnalytics.SendEvent("Some_Event");
+        PusheAnalytics.SendEcommerceData("EcommerceData", 12.0);
+
+        Pushe.Log("Subscribing to test1");
+        Pushe.SubscribeTo("test1");
+
+        Pushe.Log("Set 123123 as custom id");
+        Pushe.SetCustomId("123123");
+        Pushe.Log(Pushe.GetCustomId());
+
+        Pushe.Log("Setting {'123':'123'} as a tag");
+        var tags = new Dictionary<string, string> {{"123", "123"}};
+        Pushe.AddTags(tags);
+
+        Pushe.Log(Pushe.GetSubscribedTags().ToString());
+        Pushe.Log("Topics: " + string.Join(",", Pushe.GetSubscribedTopics()));
+        
     }
 
     /**
      * Called when Pushe is initialized.
+     * What is Initialization and what's the difference between `initialize` and `register`?
+     * If Pushe modules codes were ready, it means Pushe has been initialized,
+         while Pushe is registered when the device is submitted to Pushe server and is ready to receive notification.
      */
     private static void OnPusheInitialized()
     {
-        Debug.Log("Pushe has initialized successfully.");
+        Pushe.Log("Pushe Modules have initialized successfully.");
     }
 }
 
@@ -50,27 +91,27 @@ public class PusheNotifListener : IPusheNotificationListener
 {
     public void OnNotification(NotificationData notificationData)
     {
-        Debug.Log("Notification received: " + notificationData);
+        Pushe.Log("Notification received: " + notificationData);
     }
 
     public void OnCustomContentReceived(string customJson)
     {
-        Debug.Log("Notification custom content received: " + customJson);
+        Pushe.Log("Notification custom content received: " + customJson);
     }
 
     public void OnNotificationClick(NotificationData notificationData)
     {
-        Debug.Log("Notification clicked: " + notificationData);
+        Pushe.Log("Notification clicked: " + notificationData);
     }
 
     public void OnNotificationDismiss(NotificationData notificationData)
     {
-        Debug.Log("Notification dismissed: " + notificationData);
+        Pushe.Log("Notification dismissed: " + notificationData);
     }
 
     public void OnButtonClick(NotificationButtonData notificationButtonData, NotificationData notificationData)
     {
-        Debug.Log("Notification button clicked\n Data: " + notificationData +
+        Pushe.Log("Notification button clicked\n Data: " + notificationData +
                   "\n ButtonData: " + notificationButtonData);
     }
 }

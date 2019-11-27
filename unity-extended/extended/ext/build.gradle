@@ -1,0 +1,60 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
+
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode release.versionCode
+        versionName release.versionName
+        multiDexEnabled true
+        consumerProguardFiles 'consumer-rules.pro'
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            // If MultiDex had `NoClassDefFoundError`, simply add that class in this file
+            multiDexKeepFile file('multidex-config.txt')
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Exclude Pushe RxJava to avoid duplication when adding the actual one.
+    def noCustomRxJava = { exclude group: "co.pushe.plus", module: "rxjava" }
+
+    // Add all Pushe modules
+    api 'co.pushe.plus:core:2.0.2', noCustomRxJava
+    api 'co.pushe.plus:notification:2.0.2', noCustomRxJava
+    api 'co.pushe.plus:analytics:2.0.2', noCustomRxJava
+    api 'co.pushe.plus:sentry:2.0.2', noCustomRxJava
+    api 'co.pushe.plus:datalytics:2.0.2', noCustomRxJava
+
+    api 'com.android.support:multidex:1.0.3'
+
+    // Avoid adding custom RxJava since plugins might not be able to handle it.
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
+}
+
+ext {
+    artifact = "unity-extended"
+    bintrayName = 'pushe-plugin-ext'
+    libraryName = "Plugin-Extended"
+    libraryDescription = "Pushe Plus Extension classes for Unity Plugin"
+    uploadSources = true
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
+
+apply from : "$rootProject.projectDir/bintray-android.gradle"
+apply from : "$rootProject.projectDir/publish.gradle"

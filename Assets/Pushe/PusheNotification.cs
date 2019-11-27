@@ -23,31 +23,19 @@ public static class PusheNotification
     public static void CreateNotificationChannel(
         string channelId,
         string channelName,
-        string description,
-        int importance,
-        bool enableLight,
-        bool enableVibration,
-        long[] vibrationLengths,
-        bool showBadge,
-        int ledColor
+        string description = "",
+        int importance = 4,
+        bool enableLight = true,
+        bool enableVibration = true,
+        long[] vibrationLengths = null,
+        bool showBadge = true,
+        int ledColor = 0
     )
     {
         if (SdkLevel() >= 26)
         {
             PusheNotificationService().Call("createNotificationChannel", channelId, channelName,
                 description, importance, enableLight, enableVibration, vibrationLengths, showBadge, ledColor);
-        }
-        else
-        {
-            Debug.Log("Lower than android 8.0. Channel not created!");
-        }
-    }
-
-    public static void CreateNotificationChannel(string channelId, string channelName)
-    {
-        if (SdkLevel() >= 26)
-        {
-            PusheNotificationService().Call("createNotificationChannel", channelId, channelName, null);
         }
         else
         {
@@ -98,15 +86,17 @@ public static class PusheNotification
     }
 
     /// <summary>
+    /// <b>NOTE</b>: You must add co.pushe.plus.ext.PusheUnityApplication or co.pushe.plus.ext.PusheMultiDexApplication
+    ///  as your Application class in your manifest in order to get the callbacks.
+    /// 
+    /// If you use another custom application class, make sure to call `PusheExt.initializeNotificationListener` in it's onCreate method
+    ///
     /// To use callback feature of Pushe you must implement an interface and pass it to this.
     /// Native library will call your interfaces using UnitySendMessage to PusheCallback (If default param not entered)
     /// </summary>
     /// <param name="listener">Will be the implemented code by developer to handle notification stuff</param>
-    /// <param name="scriptObjectName">Is the Prefab object's name. If you attach PusheCallback script to Pushe.prefab, this should stay default. Otherwise enter your own object name</param>
-    public static void SetNotificationListener(IPusheNotificationListener listener, string scriptObjectName = "Pushe")
+    public static void SetNotificationListener(IPusheNotificationListener listener)
     {
-        new AndroidJavaClass("co.pushe.plus.notification.PusheCallback").CallStatic(
-            "implementNotificationListener", scriptObjectName);
         Listener = listener;
     }
 
@@ -144,37 +134,37 @@ public static class PusheNotification
             .Call<AndroidJavaObject>("setContent", userNotification.Content);
         if (userNotification.IconUrl != null)
         {
-            userNotif.Call<AndroidJavaObject>("setIconUrl", userNotification.IconUrl);
+            userNotif = userNotif.Call<AndroidJavaObject>("setIconUrl", userNotification.IconUrl);
         }
 
         if (userNotification.BigTitle != null)
         {
-            userNotif.Call<AndroidJavaObject>("setBigTitle", userNotification.BigTitle);
+            userNotif = userNotif.Call<AndroidJavaObject>("setBigTitle", userNotification.BigTitle);
         }
 
         if (userNotification.BigContent != null)
         {
-            userNotif.Call<AndroidJavaObject>("setBigContent", userNotification.BigContent);
+            userNotif = userNotif.Call<AndroidJavaObject>("setBigContent", userNotification.BigContent);
         }
 
         if (userNotification.ImageUrl != null)
         {
-            userNotif.Call<AndroidJavaObject>("setImageUrl", userNotification.ImageUrl);
+            userNotif = userNotif.Call<AndroidJavaObject>("setImageUrl", userNotification.ImageUrl);
         }
 
         if (userNotification.CustomContent != null)
         {
-            userNotif.Call<AndroidJavaObject>("setCustomContent", userNotification.CustomContent);
+            userNotif = userNotif.Call<AndroidJavaObject>("setCustomContent", userNotification.CustomContent);
         }
 
         if (userNotification.AdvancedJson != null)
         {
-            userNotif.Call<AndroidJavaObject>("setAdvancedNotification", userNotification.AdvancedJson);
+            userNotif = userNotif.Call<AndroidJavaObject>("setAdvancedNotification", userNotification.AdvancedJson);
         }
 
         if (userNotification.NotifIcon != null)
         {
-            userNotif.Call<AndroidJavaObject>("setNotifIcon", userNotification.NotifIcon);
+            userNotif = userNotif.Call<AndroidJavaObject>("setNotifIcon", userNotification.NotifIcon);
         }
 
         try
@@ -187,6 +177,7 @@ public static class PusheNotification
         }
     }
 
+    // Util Methods
 
     private static AndroidJavaClass Pushe()
     {

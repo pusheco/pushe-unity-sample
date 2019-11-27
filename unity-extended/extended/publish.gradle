@@ -1,0 +1,19 @@
+/* Use android-maven-publish plugin to create pom file in `build/maven` */
+
+apply plugin: 'digital.wup.android-maven-publish'
+
+publishing {
+    publications {
+        mavenAar(MavenPublication) {
+            from components.android
+            groupId publishedGroupId
+            artifactId artifact
+            version release.versionName
+        }
+    }
+    repositories {
+        maven {
+            url "$buildDir/maven"
+        }
+    }
+}
