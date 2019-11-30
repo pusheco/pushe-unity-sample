@@ -1,7 +1,0 @@
-<dependencies>	
-	<androidPackages>
-		<!-- mainTemplate.gradle is used instead -->
-	</androidPackages>
-  <iosPods>
-  </iosPods>
-</dependencies>
