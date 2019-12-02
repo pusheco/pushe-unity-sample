@@ -3,7 +3,6 @@ package co.pushe.plus.ext;
 import android.app.Application;
 import android.util.Log;
 import co.pushe.plus.Pushe;
-import co.pushe.plus.ext.PusheExt.debug;
 import co.pushe.plus.notification.NotificationButtonData;
 import co.pushe.plus.notification.NotificationData;
 import co.pushe.plus.notification.PusheNotification;
@@ -12,11 +11,6 @@ import com.unity3d.player.UnityPlayer;
 import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-
-
-
-
 import static co.pushe.plus.ext.PusheExt.debug;
 
 @SuppressWarnings("ALL")
@@ -151,7 +145,7 @@ public class PusheUnityApplication extends Application {
      * @param message is error message
      * @param e is the thrown exception
      */
-    private static void reportError(String message, Exception e) {
+    public static void reportError(String message, Exception e) {
         Log.e("Pushe", message, e);
         if (debug) {
             UnityPlayer.UnitySendMessage(DebugChannel, debugMethod, message + "\nStackTrace:\n" + e.getMessage());

@@ -1,7 +1,7 @@
 // If you don't have a mainTemplate.gradle, copy this file to `Assets/Plugins/Android` and **Use gradle to build**
 // If you have one, add to dependencies block:
 
-//		implementation ('co.pushe.plus:unity-extended:0.4.3')
+//		implementation ('co.pushe.plus:unity-extended:0.4.4')
 //		implementation 'com.android.support:multidex:1.0.3'
 
 // Apply multidex using
@@ -37,7 +37,7 @@ dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 	// Adding Pushe Plus
-	implementation ('co.pushe.plus:unity-extended:0.4.3')
+	implementation ('co.pushe.plus:unity-extended:0.4.4')
 	// MultiDex
 	implementation 'com.android.support:multidex:1.0.3'
 **DEPS**}

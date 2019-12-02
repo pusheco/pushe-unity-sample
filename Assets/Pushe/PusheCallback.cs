@@ -86,6 +86,18 @@ public class PusheCallback : MonoBehaviour
             return "\nButtonData: " + notificationData + "///" + clickedButton;
         }
     }
+
+    public static void SetCallbackGameObject(string objectName)
+    {
+        try
+        {
+            Pushe.PusheExt().CallStatic("setCallbackGameObjectName", objectName);
+        }
+        catch (Exception e)
+        {
+            Pushe.Log("Failed to set game object name. Still PusheCallback. " + e);
+        }
+    }
     
     
     // util

@@ -2,12 +2,14 @@ package co.pushe.plus.ext;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.content.Context;
 import co.pushe.plus.Pushe;
 import co.pushe.plus.analytics.PusheAnalytics;
 import co.pushe.plus.analytics.event.Ecommerce;
 import com.unity3d.player.UnityPlayer;
 import java.util.Arrays;
 import java.util.List;
+import java.lang.Exception;
 import org.json.JSONObject;
 
 
@@ -70,5 +72,17 @@ public class PusheExt {
      */
     public static void debuggingMode(boolean enable) {
         debug = enable;
+    }
+
+    public static void setCallbackGameObjectName(String objectName) {
+        try {
+            if (objectName != null && !objectName.isEmpty()) {
+                PusheUnityApplication.EngineChannel = objectName;
+            } else {
+                PusheUnityApplication.reportError("GameObject must not be null or empty", new Exception());
+            }
+        } catch (Exception e) {
+            PusheUnityApplication.reportError("Failed to set the Game object name. Still using PusheCallback", e);
+        }
     }
 }

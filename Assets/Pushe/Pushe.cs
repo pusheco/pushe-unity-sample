@@ -133,11 +133,9 @@ public static class Pushe
         PusheNative().CallStatic("removeTags", tagsToRemove);
     }
 
-    public static Dictionary<string, string> GetSubscribedTags()
+    public static string GetSubscribedTags()
     {
-        var tagsJavaMap = PusheExt().CallStatic<string>("getSubscribedTagsJson");
-        Log(tagsJavaMap);
-        return new Dictionary<string, string>();
+        return PusheExt().CallStatic<string>("getSubscribedTagsJson");
     }
 
     // Private section
@@ -152,7 +150,7 @@ public static class Pushe
         var list = new AndroidJavaObject("java.util.ArrayList");
         foreach (var element in elements)
         {
-            list.Call("add", element);
+            list.Call<bool>("add", element);
         }
 
         return list;

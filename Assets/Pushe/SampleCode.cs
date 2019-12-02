@@ -34,7 +34,7 @@ public class SampleCode : MonoBehaviour
     {
 
 
-        Pushe.Log("Pushe has been REGISTERED to server successfully.");
+        Pushe.Log(" --- Pushe has been REGISTERED to server successfully --- ");
         var adId = Pushe.GetGoogleAdvertisingId();
         Pushe.Log("Ad id: " + adId);
         
@@ -46,8 +46,8 @@ public class SampleCode : MonoBehaviour
                 .SetContent("How are you?")
         );
 
-        Pushe.Log("Notification " + PusheNotification.IsNotificationEnabled());
-        Pushe.Log("Custom sound " + PusheNotification.IsCustomSoundEnabled());
+        Pushe.Log("Notification enabled? " + PusheNotification.IsNotificationEnabled());
+        Pushe.Log("Custom sound enabled? " + PusheNotification.IsCustomSoundEnabled());
         PusheNotification.CreateNotificationChannel("CustomChannel", "CustomChannel");
         
         // Analytics
@@ -59,14 +59,18 @@ public class SampleCode : MonoBehaviour
 
         Pushe.Log("Set 123123 as custom id");
         Pushe.SetCustomId("123123");
-        Pushe.Log(Pushe.GetCustomId());
+        Pushe.Log("CustomId is: " + Pushe.GetCustomId());
 
-        Pushe.Log("Setting {'123':'123'} as a tag");
-        var tags = new Dictionary<string, string> {{"123", "123"}};
+        var tags = new Dictionary<string, string> {{"name","Mohammad"}, {"age", "25"}, {"birthday","1435187386"}};
         Pushe.AddTags(tags);
 
-        Pushe.Log(Pushe.GetSubscribedTags().ToString());
+        Pushe.RemoveTag("name", "age");
+
+        Pushe.Log("Tags: " + Pushe.GetSubscribedTags());
         Pushe.Log("Topics: " + string.Join(",", Pushe.GetSubscribedTopics()));
+
+        PusheCallback.SetCallbackGameObject(gameObject.name);
+        
         
     }
 

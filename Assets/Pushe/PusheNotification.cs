@@ -101,6 +101,19 @@ public static class PusheNotification
     }
 
     /// <summary>
+    /// Same as `SetNotificationListener(Listener), but it will send message to a custom game object.
+    /// for instance: SetNotificationListener(gameObject.name, listener); will send the message to this object.
+    /// **NOTE**: PusheCallback.cs MUST be attached. Otherwise this does not work.
+    /// </summary>
+    public static void SetNotificationListener(string objectName, IPusheNotificationListener listener)
+    {
+        PusheCallback.SetCallbackGameObject(objectName);
+        Listener = listener;
+    }
+
+    
+
+    /// <summary>
     /// With this function you can send notification from user to user.
     /// </summary>
     /// <exception cref="Exception">Will be thrown if needed param was entered as a null value</exception>

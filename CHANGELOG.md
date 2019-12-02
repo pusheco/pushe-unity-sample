@@ -3,6 +3,14 @@
 > The plugin version follows the `unity-extended` gradle version for simplicity.
 > Refer to https://dl.bintray.com/pushe/plugin for more info about versioning.
 
+## 0.4.4
+
+* Moved `mainTemplate.gradle` in `Pushe/setup` folder to avoid force replacement of this file when already exists.
+* Added `AndroidManifest.xml` for more help in `Pushe/setup` folder.
+* Updated native plugin to `0.4.4`
+* Fix `PusheNotification.GetSubscribedTags()` returning an empty dict. The function will return `json` in `string` format.
+
+
 ## 0.4.3 - First release
 
 * Added `unity-extended` module using `mainTemplate.gradle`

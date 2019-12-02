@@ -55,6 +55,8 @@ If you came up with multiDex error, you should do various things. But with Plus:
 
 * Make a GameObject called `PusheCallback` (Exactly), and drag it to the scene. Attach `PusheCallback` script to it.
 * Use `PusheNotification.SetNotificationListener()` and pass an interface to get the callbacks.
+> Update: It is possible to use custom GameObject name, call `PusheCallback.setGameObjectName()` and callbacks will be sent to that GameObject.
+> The PusheCallback.cs script still needs to be attached.
 
 > **NOTE**: Callbacks will only trigger when engine is up and running. The library will call the objects anyway, but Unity won't get it.
 > Use `PusheCallback.SetDebugMode(true)` to see the callbacks in the LogCat in all times.
