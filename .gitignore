@@ -32,3 +32,5 @@ Scenes/
 Assets/Plugins/Android/
 
 Assets/Plugins/Editor/
+
+*.apk
