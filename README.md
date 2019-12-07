@@ -32,3 +32,9 @@ Make a `C# script` and call `Pushe`, `PusheNotification` and `PusheAnalytics` me
 
 
 For further informations, checkout the official documentations.
+
+---
+
+# Develop
+
+Checkout [PLUGIN.md](PLUGIN.md) for more info on how to develop your own and maintain this.
