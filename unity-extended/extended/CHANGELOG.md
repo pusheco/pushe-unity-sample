@@ -1,5 +1,14 @@
 # ChangeLog of Unity Extended plugin for Pushe plus
 
+## 0.4.6
+
+- Update the native library to latest
+- Fix bug with `CreateNotificationChannl`
+
+## 0.4.5 (26 Jan, 2020)
+
+- Update the native library to latest
+
 ## 0.4.4 (01 Dec, 2019)
 
 - Updated native plugin to use non-modified RxJava

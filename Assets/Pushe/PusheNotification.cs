@@ -35,7 +35,7 @@ public static class PusheNotification
         if (SdkLevel() >= 26)
         {
             PusheNotificationService().Call("createNotificationChannel", channelId, channelName,
-                description, importance, enableLight, enableVibration, vibrationLengths, showBadge, ledColor);
+                description, importance, enableLight, enableVibration, showBadge, ledColor, vibrationLengths);
         }
         else
         {
