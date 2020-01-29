@@ -1,4 +1,4 @@
-# Unity Plugin for Pushe plus
+# Unity SDK for Pushe plus
 
 ## Content
 
@@ -6,35 +6,89 @@
 * `extended` folder contains source code of `unity-extended` native android module which is used using bintray gradle as an android library.
 * `CHANGELOG` file
 
-## Usage
+## Using the plugin
 
-### Add the plugin
+Two ways to add `Pushe` in the game:
+- Add it right inside the project
+- Export the project and add `Pushe`
 
-**Double click** on it when project is open to be imported, or **Right click on Assets** and import it as a `Custom package`.
+## Adding to the project
 
-### Use it
+#### Add the plugin
 
-* Add the token in your own `AndroidManifest.xml` (If you don't have it, copy one)
+* **Double click** on it when project is open to be imported, or **Right click on Assets** and import it as a `Custom package`.
 
-> Since the library will register itself when app is started, no need to do anything extra.
+- Enable using `Gradle` build system.
 
-Make a `C# script` and call `Pushe`, `PusheNotification` and `PusheAnalytics` methods as you desire.
+
+#### Import the plugin
+
+* Copy `AndroidManifest` and `mainTemplate.gradle` file from `Pushe/Setup` to `Assets/Plugins/Android` (Create if you don't have).
+
 
 > For more information see the `Sample.cs` script (or even add it to a GameObject to see the logs).
 
-### Extra work
+## Adding to Exported project
 
-**Notification callbacks** are made using `UnitySendMessage` bridge and will need their own object (can be overriden in future versions).
+#### Add the plugin
 
-> Make a GameObject called `PusheCallback` (Exactly this name!) and drag it to the scene, and then add `PusheCallback` script to it.
+Download the latest `unitypackage` from documents or right here, **Right click on Assets** and import the downloaded `unitypackage` as a `Custom package`.
 
-> The callbacks will trigger c# code only when engine is up and running in the foreground. Otherwise it will pause the application and callbacks won't be called.
+#### Export
+
+* Use export option in `Build` window of UnityEditor.
+* Open the exported folder with `Android Studio`.
+
+#### Importing the plugin
+
+In the `build.gradle`:
+
+* Add the repository
+
+```groovy
+allprojects {
+   repositories {
+      // ...
+	  // Pushe Extended plugin
+	  maven { url 'https://dl.bintray.com/pushe/plugin' }
+   }
+}
+```
+
+* Enable multiDex (If `minSDK < 21`)
+
+```groovy
+android {
+	// ...
+
+	defaultConfig {
+        // ...
+		// Enable MultiDex -- Pushe natively adds multidex support library.
+		multiDexEnabled true
+    }
+}
+```
+
+* Add the library
+
+```groovy
+// Adding Pushe Plus
+implementation ("co.pushe.plus:unity-extended:0.4.6")
+```
+
+#### Add credentials
+
+In `AndroidManifest` file add this inside the token tag:
+
+```xml
+<application
+ ...>
 
 
-For further informations, checkout the official documentations.
+    <meta-date android:name="pushe_token" android:value="THE_TOKEN" />
+ </application>
+```
 
 ---
 
-# Develop
-
-Checkout [PLUGIN.md](PLUGIN.md) for more info on how to develop your own and maintain this.
+For more information about the documentation, visit [documentation](https://docs.pushe.co/)
