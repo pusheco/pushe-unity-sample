@@ -1,1 +1,0 @@
--keep android.app.* { *; }

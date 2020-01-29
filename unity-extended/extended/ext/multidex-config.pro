@@ -1,0 +1,2 @@
+-keep class android.app.** { *; }
+-keep class com.unity3d.** { *; }

@@ -3,7 +3,8 @@
 ## 0.4.6
 
 - Update the native library to latest
-- Fix bug with `CreateNotificationChannl`
+- Attempt to add `com.unity3d` to dex excluded
+- Fix bug with `CreateNotificationChannel`
 
 ## 0.4.5 (26 Jan, 2020)
 

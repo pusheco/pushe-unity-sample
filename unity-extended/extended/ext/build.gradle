@@ -19,7 +19,7 @@ android {
         release {
             minifyEnabled false
             // If MultiDex had `NoClassDefFoundError`, simply add that class in this file
-            multiDexKeepFile file('multidex-config.txt')
+            multiDexKeepProguard file('multidex-config.pro')
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
