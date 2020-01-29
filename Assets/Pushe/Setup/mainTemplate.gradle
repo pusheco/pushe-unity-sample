@@ -36,7 +36,7 @@ dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 	// Adding Pushe Plus
-	implementation ('co.pushe.plus:unity-extended:0.4.4')
+	implementation ('co.pushe.plus:unity-extended:0.4.6')
 	// MultiDex
 	implementation 'com.android.support:multidex:1.0.3'
 **DEPS**}
