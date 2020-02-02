@@ -3,6 +3,12 @@
 > The plugin version follows the `unity-extended` gradle version for simplicity.
 > Refer to https://dl.bintray.com/pushe/plugin for more info about versioning.
 
+## 0.4.6
+
+* Updated native plugin to `0.4.6` which uses `2.0.4` of Android native SDK
+* Fix bug with `CreateNotificationChannel`
+* Big fixes and improvements
+
 ## 0.4.4
 
 * Moved `mainTemplate.gradle` in `Pushe/setup` folder to avoid force replacement of this file when already exists.
