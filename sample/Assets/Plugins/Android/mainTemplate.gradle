@@ -1,0 +1,101 @@
+// If you don't have a mainTemplate.gradle, copy this file to `Assets/Plugins/Android` and **Use gradle to build**
+// If you have one, add to dependencies block:
+
+//		implementation ('co.pushe.plus:unity-extended:0.4.6')
+
+// Apply multidex using
+//		multiDexEnabled true
+// in defaultConfig block
+
+buildscript {
+	repositories {
+		google()
+		jcenter()
+	}
+
+	dependencies {
+		classpath 'com.android.tools.build:gradle:3.2.0'
+	}
+}
+
+allprojects {
+   repositories {
+      google()
+      jcenter()
+	  // Pushe Extended plugin
+	  maven { url 'https://dl.bintray.com/pushe/plugin' }
+      flatDir {
+        dirs 'libs'
+      }
+   }
+}
+
+apply plugin: 'com.android.application'
+
+dependencies {
+	implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+	// Adding Pushe Plus
+	implementation ('co.pushe.plus:unity-extended:0.4.6')
+	// MultiDex
+	implementation 'com.android.support:multidex:1.0.3'
+**DEPS**}
+
+android {
+	compileSdkVersion 28
+	buildToolsVersion '28.0.3'
+
+	defaultConfig {
+		// Enable MultiDex -- Pushe natively adds multidex support library. Adding this is enough.
+		multiDexEnabled true
+
+		minSdkVersion **MINSDKVERSION**
+		targetSdkVersion **TARGETSDKVERSION**
+		applicationId '**APPLICATIONID**'
+		ndk {
+            abiFilters **ABIFILTERS**
+        }
+		versionCode	**VERSIONCODE**
+		versionName	'**VERSIONNAME**'
+
+	}
+
+	lintOptions {
+		abortOnError false
+	}
+
+	aaptOptions {
+		noCompress '.unity3d', '.ress', '.resource', '.obb'**STREAMING_ASSETS**
+	}
+
+**SIGN**
+	buildTypes {
+  		debug {
+ 			minifyEnabled **MINIFY_DEBUG**
+ 			useProguard **PROGUARD_DEBUG**
+ 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-unity.txt'**USER_PROGUARD**
+  			jniDebuggable true
+  		}
+  		release {
+ 			minifyEnabled **MINIFY_RELEASE**
+ 			useProguard **PROGUARD_RELEASE**
+  			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-unity.txt'**USER_PROGUARD**
+  			**SIGNCONFIG**
+  		}
+	}
+**PACKAGING_OPTIONS**
+    bundle {
+        language {
+            enableSplit = false
+        }
+        density {
+            enableSplit = false
+        }
+        abi {
+            enableSplit = true
+        }
+    }
+}
+
+
+**SOURCE_BUILD_SETUP**

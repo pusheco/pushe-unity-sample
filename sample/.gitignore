@@ -1,0 +1,15 @@
+Temp/
+
+ProjectSettings/
+
+Logs/
+
+Assets/Plugins/Android/*.jar
+
+Assets/Plugins/Android/*.aar
+
+Assets/Plugins/Android/*.zip
+
+Assets/Plugins/Editor/
+
+Library/

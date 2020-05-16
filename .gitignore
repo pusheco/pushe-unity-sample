@@ -1,0 +1,13 @@
+/.idea/*
+
+UnityPackageManager/
+
+*.user
+
+*.csproj
+
+*.meta
+
+*.apk
+
+*.sln
