@@ -10,8 +10,29 @@ using UnityEngine;
 public static class Pushe
 {
     private const string PushePath = "co.pushe.plus.Pushe";
+    // Some additional functions for Pushe SDK
     private const string PusheExtPath = "co.pushe.plus.ext.PusheExt";
 
+    /// <summary>
+    /// GDPR related.
+    /// If the user consent was given about necessary data collection for Pushe,
+    ///     use this function to let pushe registration begin.
+    /// To be able to use GDPR, add "pushe_requires_user_consent" meta-data value to "true",
+    /// After showing the dialog and getting user's consent, call this onAccept.
+    /// NOTE: Calling this only once is enough.
+    /// </summary>
+    public static void Initialize()
+    {
+        PusheNative().CallStatic("initialize");
+    }
+
+    /// <summary>
+    /// Set user's consent
+    /// <summary>
+    public static void setUserConsentGiven()
+    {
+        PusheNative().CallStatic("setUserConsentGiven");
+    }
 
     /// <summary>
     /// Check if pushe is registered to FCM
@@ -60,19 +81,21 @@ public static class Pushe
     /// <summary>
     /// Returns android id of device
     /// </summary>
+    [Obsolete("GetAndroidId is deprecated, please use GetDeviceId instead.")]
     public static string GetAndroidId()
     {
         return PusheNative().CallStatic<string>("getAndroidId");
     }
 
     /// <summary>
-    /// Please refer to https://pushe.co/docs/ for more information about pushe id.
+    /// Returns unique id of device
+    /// Following ID makes a unique ID that:
+    /// - (Android 8.0 or higher): Is unique in an app and will be different on another app.
+    /// - (Android lower that 8.0): Is a unique ID for all apps and each device will have only one id.
     /// </summary>
-    /// <returns></returns>
-    [Obsolete("GetPusheId is deprecated, please use GetAndroidId or GetGoogleAdvertisingId instead.")]
-    public static string GetPusheId()
+    public static string GetDeviceId()
     {
-        return PusheNative().CallStatic<string>("getPusheId");
+        return PusheNative().CallStatic<string>("getDeviceId");
     }
 
     public static void SubscribeTo(string topic)
