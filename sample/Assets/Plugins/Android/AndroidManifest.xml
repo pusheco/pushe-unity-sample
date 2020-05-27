@@ -32,6 +32,7 @@
             <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
         </activity>
 
+        <!-- Token belongs to a demo account. You can replace it with your own -->
         <meta-data android:name="pushe_token" android:value="M2U0Nzk0amxqODU3MXdvZUBlbXVAMTU0MTQ0ODQ1NTY=" />
         
     </application>
