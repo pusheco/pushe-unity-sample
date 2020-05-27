@@ -24,8 +24,6 @@ allprojects {
       jcenter()
 	  // Pushe Extended plugin
 	  maven { url 'https://dl.bintray.com/pushe/plugin' }
-	  // Pushe repo for PreRelease versions
-	  maven { url 'https://dl.bintray.com/pushe/preview'}
       flatDir {
         dirs 'libs'
       }
@@ -38,7 +36,7 @@ dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 	// Adding Pushe Plus
-	implementation ('co.pushe.plus:unity-extended:0.4.7-beta10')
+	implementation ('co.pushe.plus:unity-extended:0.4.7')
 	// MultiDex
 	implementation 'androidx.multidex:multidex:2.0.1'
 **DEPS**}

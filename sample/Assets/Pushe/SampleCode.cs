@@ -32,11 +32,11 @@ public class SampleCode : MonoBehaviour
      */
     private void OnPusheRegisteredSuccessfully()
     {
-
-
         Pushe.Log(" --- Pushe has been REGISTERED to server successfully --- ");
         var adId = Pushe.GetGoogleAdvertisingId();
         Pushe.Log("Ad id: " + adId);
+        var deviceId = Pushe.GetDeviceId();
+        Pushe.Log("Device id : " + deviceId);
         
         // Pushe Notification
         
