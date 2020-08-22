@@ -4,7 +4,7 @@ apply plugin: 'com.android.application'
 
 dependencies {
     implementation project(':unityLibrary')
-	implementation ('co.pushe.plus:unity-extended:0.4.7')
+	implementation ('co.pushe.plus:unity-extended:0.5.0-alpha01')
 }
 
 android {
