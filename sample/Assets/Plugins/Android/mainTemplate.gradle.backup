@@ -1,7 +1,7 @@
 // If you don't have a mainTemplate.gradle, copy this file to `Assets/Plugins/Android` and **Use gradle to build**
 // If you have one, add to dependencies block:
 
-//		implementation ('co.pushe.plus:unity-extended:0.4.6')
+//		implementation ('co.pushe.plus:unity-extended:0.5.0-alpha01')
 
 // Apply multidex using
 //		multiDexEnabled true

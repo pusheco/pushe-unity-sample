@@ -208,7 +208,7 @@ public static class Pushe
 
     public static void Log(string message)
     {
-        Debug.Log("Pushe: " + message);
+        Debug.Log("Pushe [Unity]: " + message);
     }
 
     public static AndroidJavaClass PusheExt()
