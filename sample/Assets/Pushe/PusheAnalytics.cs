@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class PusheAnalytics
 {
-    private const string PushePath = "co.pushe.plus.Pushe";
-    private const string PusheExtPath = "co.pushe.plus.ext.PusheExt";
 
 
     /// <summary>
@@ -18,24 +16,12 @@ public class PusheAnalytics
 
     public static void SendEcommerceData(string name, double price, string category = null, long quantity = -1)
     {
-        PusheExt().CallStatic("sendEcommerce", name, price, category, quantity);
-    }
-
-    // Util classes
-    
-    
-    private static AndroidJavaClass Pushe()
-    {
-        return new AndroidJavaClass(PushePath);
+        PusheUtils.Extension().CallStatic("sendEcommerce", name, price, category, quantity);
     }
 
     private static AndroidJavaObject PusheAnalyticsService()
     {
-        return Pushe().CallStatic<AndroidJavaObject>("getPusheService", "analytics");
+        return PusheUtils.Native().CallStatic<AndroidJavaObject>("getPusheService", "analytics");
     }
 
-    private static AndroidJavaClass PusheExt()
-    {
-        return new AndroidJavaClass(PusheExtPath);
-    }
 }

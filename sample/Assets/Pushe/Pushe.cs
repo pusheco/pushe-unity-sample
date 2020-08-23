@@ -5,13 +5,10 @@ using UnityEngine;
 
 
 /// <summary>
-/// For more and detailed information and documentations please checkout <seealso ref="https://pushe.co/docs/"/>
+/// For more and detailed information and documentations please checkout <seealso ref="https://docs.pushe.co"/>
 /// </summary>
 public static class Pushe
 {
-    private const string PushePath = "co.pushe.plus.Pushe";
-    // Some additional functions for Pushe SDK
-    private const string PusheExtPath = "co.pushe.plus.ext.PusheExt";
 
     /// <summary>
     /// GDPR related.
@@ -23,7 +20,7 @@ public static class Pushe
     /// </summary>
     public static void Initialize()
     {
-        PusheNative().CallStatic("initialize");
+        PusheUtils.Native().CallStatic("initialize");
     }
 
     /// <summary>
@@ -31,7 +28,7 @@ public static class Pushe
     /// <summary>
     public static void setUserConsentGiven()
     {
-        PusheNative().CallStatic("setUserConsentGiven");
+        PusheUtils.Native().CallStatic("setUserConsentGiven");
     }
 
     /// <summary>
@@ -39,7 +36,7 @@ public static class Pushe
     /// </summary>
     public static bool IsRegistered()
     {
-        return PusheNative().CallStatic<bool>("isRegistered");
+        return PusheUtils.Native().CallStatic<bool>("isRegistered");
     }
 
     /// <summary>
@@ -47,7 +44,7 @@ public static class Pushe
     /// </summary>
     public static bool IsInitialized()
     {
-        return PusheNative().CallStatic<bool>("isInitialized");
+        return PusheUtils.Native().CallStatic<bool>("isInitialized");
     }
 
     /**
@@ -55,7 +52,7 @@ public static class Pushe
      */
     public static void OnPusheRegistered(RegisterDelegate registerCallback)
     {
-        PusheNative().CallStatic("setRegistrationCompleteListener", new RegisterCallback(registerCallback));
+        PusheUtils.Native().CallStatic("setRegistrationCompleteListener", new RegisterCallback(registerCallback));
     }
 
     /// <summary>
@@ -66,7 +63,7 @@ public static class Pushe
     /// <param name="initCallback"></param>
     public static void OnPusheInitialized(RegisterDelegate initCallback)
     {
-        PusheNative().CallStatic("setInitializationCompleteListener", new RegisterCallback(initCallback));
+        PusheUtils.Native().CallStatic("setInitializationCompleteListener", new RegisterCallback(initCallback));
     }
 
     /// <summary>
@@ -75,7 +72,7 @@ public static class Pushe
     /// <returns>Null if this feature was disabled by user and true otherwise</returns>
     public static string GetGoogleAdvertisingId()
     {
-        return PusheNative().CallStatic<string>("getGoogleAdvertisingId");
+        return PusheUtils.Native().CallStatic<string>("getGoogleAdvertisingId");
     }
 
     /// <summary>
@@ -84,7 +81,7 @@ public static class Pushe
     [Obsolete("GetAndroidId is deprecated, please use GetDeviceId instead.")]
     public static string GetAndroidId()
     {
-        return PusheNative().CallStatic<string>("getAndroidId");
+        return PusheUtils.Native().CallStatic<string>("getAndroidId");
     }
 
     /// <summary>
@@ -95,125 +92,74 @@ public static class Pushe
     /// </summary>
     public static string GetDeviceId()
     {
-        return PusheNative().CallStatic<string>("getDeviceId");
+        return PusheUtils.Native().CallStatic<string>("getDeviceId");
     }
 
     public static void SubscribeTo(string topic)
     {
-        PusheNative().CallStatic("subscribeToTopic", topic, null);
+        PusheUtils.Native().CallStatic("subscribeToTopic", topic, null);
     }
 
     public static void UnsubscribeFrom(string topic)
     {
-        Debug.Log("Unsubscribe from topic...");
-        PusheNative().CallStatic("unsubscribeFromTopic", topic, null);
+        PusheUtils.Native().CallStatic("unsubscribeFromTopic", topic, null);
     }
     
     public static string[] GetSubscribedTopics()
     {
-        return PusheExt().CallStatic<string>("getSubscribedTopicsCsv").Split(',');
+        return PusheUtils.Extension().CallStatic<string>("getSubscribedTopicsCsv").Split(',');
     }
 
     public static void SetCustomId(string id)
     {
-        PusheNative().CallStatic("setCustomId", id);
+        PusheUtils.Native().CallStatic("setCustomId", id);
     }
 
     public static string GetCustomId()
     {
-        return PusheNative().CallStatic<string>("getCustomId");
+        return PusheUtils.Native().CallStatic<string>("getCustomId");
     }
 
     public static bool SetUserEmail(string email)
     {
-        return PusheNative().CallStatic<bool>("setUserEmail", email);
+        return PusheUtils.Native().CallStatic<bool>("setUserEmail", email);
     }
 
     public static string GetUserEmail()
     {
-        return PusheNative().CallStatic<string>("getUserEmail");
+        return PusheUtils.Native().CallStatic<string>("getUserEmail");
     }
 
     public static bool SetUserPhoneNumber(string phone)
     {
-        return PusheNative().CallStatic<bool>("setUserPhoneNumber", phone);
+        return PusheUtils.Native().CallStatic<bool>("setUserPhoneNumber", phone);
     }
 
     public static string GetUserPhoneNumber()
     {
-        return PusheNative().CallStatic<string>("getUserPhoneNumber");
+        return PusheUtils.Native().CallStatic<string>("getUserPhoneNumber");
     }
 
     public static void AddTags(IDictionary<string, string> tags)
     {
-        var mapOfTags = CreateJavaMapFromDictionary(tags);
-        PusheNative().CallStatic("addTags", mapOfTags);
+        var mapOfTags = PusheUtils.CreateJavaMapFromDictionary(tags);
+        PusheUtils.Native().CallStatic("addTags", mapOfTags);
     }
 
     public static void RemoveTag(params string[] tags)
     {
-        var tagsToRemove = CreateJavaArrayList(tags);
-        PusheNative().CallStatic("removeTags", tagsToRemove);
+        var tagsToRemove = PusheUtils.CreateJavaArrayList(tags);
+        PusheUtils.Native().CallStatic("removeTags", tagsToRemove);
     }
 
     public static string GetSubscribedTags()
     {
-        return PusheExt().CallStatic<string>("getSubscribedTagsJson");
-    }
-
-    // Private section
-
-    private static AndroidJavaClass PusheNative()
-    {
-        return new AndroidJavaClass(PushePath);
-    }
-
-    private static AndroidJavaObject CreateJavaArrayList(params string[] elements)
-    {
-        var list = new AndroidJavaObject("java.util.ArrayList");
-        foreach (var element in elements)
-        {
-            list.Call<bool>("add", element);
-        }
-
-        return list;
-    }
-
-    private static AndroidJavaObject CreateJavaMapFromDictionary(IDictionary<string, string> parameters)
-    {
-        var javaMap = new AndroidJavaObject("java.util.HashMap");
-        var putMethod = AndroidJNIHelper.GetMethodID(
-            javaMap.GetRawClass(), "put",
-            "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
-
-        var args = new object[2];
-        foreach (var kvp in parameters)
-        {
-            using (var k = new AndroidJavaObject(
-                "java.lang.String", kvp.Key))
-            {
-                using (var v = new AndroidJavaObject(
-                    "java.lang.String", kvp.Value))
-                {
-                    args[0] = k;
-                    args[1] = v;
-                    AndroidJNI.CallObjectMethod(javaMap.GetRawObject(),
-                        putMethod, AndroidJNIHelper.CreateJNIArgArray(args));
-                }
-            }
-        }
-
-        return javaMap;
+        return PusheUtils.Extension().CallStatic<string>("getSubscribedTagsJson");
     }
 
     public static void Log(string message)
     {
         Debug.Log("Pushe [Unity]: " + message);
-    }
-
-    public static AndroidJavaClass PusheExt()
-    {
-        return new AndroidJavaClass(PusheExtPath);
     }
 }
 
