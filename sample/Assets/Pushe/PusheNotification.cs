@@ -11,8 +11,6 @@ using UnityEngine.UI;
 /// </summary>
 public static class PusheNotification
 {
-    private const string PushePath = "co.pushe.plus.Pushe";
-    public static IPusheNotificationListener Listener;
 
     /// <summary>
     /// For API 26 and above you can create channel for your app.
@@ -85,30 +83,9 @@ public static class PusheNotification
         return PusheNotificationService().Call<bool>("isCustomSoundEnable");
     }
 
-    /// <summary>
-    /// <b>NOTE</b>: You must add co.pushe.plus.ext.PusheUnityApplication or co.pushe.plus.ext.PusheMultiDexApplication
-    ///  as your Application class in your manifest in order to get the callbacks.
-    /// 
-    /// If you use another custom application class, make sure to call `PusheExt.initializeNotificationListener` in it's onCreate method
-    ///
-    /// To use callback feature of Pushe you must implement an interface and pass it to this.
-    /// Native library will call your interfaces using UnitySendMessage to PusheCallback (If default param not entered)
-    /// </summary>
-    /// <param name="listener">Will be the implemented code by developer to handle notification stuff</param>
-    public static void SetNotificationListener(IPusheNotificationListener listener)
-    {
-        Listener = listener;
-    }
-
-    /// <summary>
-    /// Same as `SetNotificationListener(Listener), but it will send message to a custom game object.
-    /// for instance: SetNotificationListener(gameObject.name, listener); will send the message to this object.
-    /// **NOTE**: PusheCallback.cs MUST be attached. Otherwise this does not work.
-    /// </summary>
-    public static void SetNotificationListener(string objectName, IPusheNotificationListener listener)
-    {
-        PusheCallback.SetCallbackGameObject(objectName);
-        Listener = listener;
+    public static void SetNotificationListener(IPusheNotificationListener listener) {
+        var callback = new NotificationCallback(listener);
+        PusheNotificationService().Call("setNotificationListener", callback);
     }
 
     
@@ -186,20 +163,13 @@ public static class PusheNotification
         }
         catch (Exception e)
         {
-            Console.WriteLine("Couldn't send a notification. Error:\n" + e.Message);
+            Pushe.Log($"Could not send a notification {e}");
         }
-    }
-
-    // Util Methods
-
-    private static AndroidJavaClass Pushe()
-    {
-        return new AndroidJavaClass(PushePath);
     }
 
     private static AndroidJavaObject PusheNotificationService()
     {
-        return Pushe().CallStatic<AndroidJavaObject>("getPusheService", "notification");
+        return PusheUtils.Native().CallStatic<AndroidJavaObject>("getPusheService", "notification");
     }
 
     private static int SdkLevel()
@@ -320,23 +290,25 @@ public class UserNotification
 [Serializable]
 public class NotificationData
 {
-    public string messageId,
-        title,
-        content,
-        bigTitle,
-        bigContent,
-        summary,
-        imageUrl,
-        iconUrl,
-        bigIconUrl,
-        customContent;
+    public string title, content, bigTitle,
+        bigContent, summary, imageUrl, iconUrl,  bigIconUrl, customContent;
 
     public NotificationButtonData[] buttons;
 
+    public static NotificationData FromAndroid(AndroidJavaObject androidJavaObject) {
+        NotificationData notification = new NotificationData();
+        try {
+            string json = PusheUtils.Extension().CallStatic<string>("notificationToJson", androidJavaObject);
+            notification = JsonUtility.FromJson<NotificationData>(json);
+        } catch(Exception e) {
+            Pushe.Log($"Failed to parse notification {e}");
+        }
+        return notification;
+    }
 
     public override string ToString()
     {
-        return "\n" + messageId + "/" +
+        return "\n" +
                title + "/" +
                content + "/" +
                bigTitle + "/" +
@@ -355,8 +327,54 @@ public class NotificationButtonData
 {
     public string id, text, icon;
 
+    public static NotificationButtonData FromAndroid(AndroidJavaObject androidJavaObject) {
+        NotificationButtonData button = new NotificationButtonData();
+        try {
+            string json = PusheUtils.Extension().CallStatic<string>("notificationButtonToJson", androidJavaObject);
+            button = JsonUtility.FromJson<NotificationButtonData>(json);
+        } catch(Exception e) {
+            Pushe.Log($"Failed to parse notification {e}");
+        }
+        return button;
+    }
+
     public override string ToString()
     {
         return id + "/" + text + "/" + icon;
     }
+}
+
+[SuppressMessage("ReSharper", "InconsistentNaming")]
+public class NotificationCallback : AndroidJavaProxy
+{
+    private IPusheNotificationListener _listener;
+
+    public NotificationCallback(IPusheNotificationListener listener) : base("co.pushe.plus.notification.PusheNotificationListener")
+    {
+        _listener = listener;
+    }
+
+    public void onNotification(AndroidJavaObject notification) {
+        var data = NotificationData.FromAndroid(notification);
+        _listener.OnNotification(data);
+    }
+    public void onCustomContentNotification(AndroidJavaObject customContent) {
+        var data = PusheUtils.Extension().CallStatic<string>("mapToString", customContent);
+        _listener.OnCustomContentReceived(data);
+    }
+    public void onNotificationClick(AndroidJavaObject notification) {
+        var data = NotificationData.FromAndroid(notification);
+        _listener.OnNotificationClick(data);
+    }
+    public void onNotificationDismiss(AndroidJavaObject notification) {
+        var data = NotificationData.FromAndroid(notification);
+        _listener.OnNotificationDismiss(data);
+    }
+    public void onNotificationButtonClick(AndroidJavaObject notification, AndroidJavaObject button) {
+        var data = NotificationData.FromAndroid(notification);
+        var clickedButton = NotificationButtonData.FromAndroid(button);
+        _listener.OnButtonClick(clickedButton, data);
+    }
+
+    
 }

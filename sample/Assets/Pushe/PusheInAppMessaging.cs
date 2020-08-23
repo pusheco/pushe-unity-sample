@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public static class PusheInAppMessaging {
     private const string PushePath = "co.pushe.plus.Pushe";
-    private static IPusheInAppMessagingListener Listener;
 
     /// Trigger a local event. Local event is useless for sending data to server.
     /// Since no data is sent to server. Local events are only useful for triggering an in app messaging 
@@ -70,19 +69,19 @@ public class InAppMessagingCallback : AndroidJavaProxy
     }
 
     public void onInAppMessageReceived (AndroidJavaObject inapp) {
-        _listener.OnInAppMessageReceived(InAppMessage.fromAndroid(inapp));
+        _listener.OnInAppMessageReceived(InAppMessage.FromAndroid(inapp));
     }
     public void onInAppMessageTriggered(AndroidJavaObject inapp) {
-        _listener.OnInAppMessageTriggered(InAppMessage.fromAndroid(inapp));
+        _listener.OnInAppMessageTriggered(InAppMessage.FromAndroid(inapp));
     }
     public void onInAppMessageClicked(AndroidJavaObject inapp) {
-        _listener.OnInAppMessageClicked(InAppMessage.fromAndroid(inapp));
+        _listener.OnInAppMessageClicked(InAppMessage.FromAndroid(inapp));
     }
     public void onInAppMessageDismissed(AndroidJavaObject inapp) {
-        _listener.OnInAppMessageDismissed(InAppMessage.fromAndroid(inapp));
+        _listener.OnInAppMessageDismissed(InAppMessage.FromAndroid(inapp));
     }
     public void onInAppMessageButtonClicked(AndroidJavaObject inapp, int index) {
-        _listener.OnInAppMessageButtonClicked(InAppMessage.fromAndroid(inapp), index);
+        _listener.OnInAppMessageButtonClicked(InAppMessage.FromAndroid(inapp), index);
     }
 
     
@@ -95,21 +94,15 @@ public class InAppMessage {
 
     public InAppMessageButton[] buttons;
 
-    public static InAppMessage fromAndroid(AndroidJavaObject androidObject) {
+    public static InAppMessage FromAndroid(AndroidJavaObject androidObject) {
         InAppMessage inapp = new InAppMessage();
         try {
-            string inappJson = PusheExt().CallStatic<string>("inAppToJson", androidObject);
+            string inappJson = PusheUtils.Extension().CallStatic<string>("inAppToJson", androidObject);
             inapp = JsonUtility.FromJson<InAppMessage>(inappJson);
         } catch(Exception e) {
             Pushe.Log($"Failed to parse inapp message.\n {e}");
         }
         return inapp;
-    }
-
-    
-    private static AndroidJavaClass PusheExt()
-    {
-        return new AndroidJavaClass("co.pushe.plus.ext.PusheExt");
     }
 }
 

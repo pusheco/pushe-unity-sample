@@ -11,7 +11,7 @@
 
 ## Use with JarResolver?
 
-If you really don't want to use `Gradle template`, add `co.pushe.plus:unity-extended:0.4.4` as an android package in a `*Dependencies.xml` file.
+If you really don't want to use `Gradle template`, add `co.pushe.plus:unity-extended:$latest` as an android package in a `*Dependencies.xml` file.
 
 
 ## More info
