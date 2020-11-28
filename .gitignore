@@ -1,0 +1,9 @@
+.idea
+Library
+obj
+Temp
+UnityPackageManager
+*.csproj
+*.sln
+*.apk
+*.exe
