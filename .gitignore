@@ -2,8 +2,14 @@
 Library
 obj
 Temp
+Logs
+Packages
 UnityPackageManager
 *.csproj
 *.sln
 *.apk
 *.exe
+*.meta
+Assets/Plugins/Android/*.jar
+Assets/Plugins/Android/*.aar
+ProjectSettings

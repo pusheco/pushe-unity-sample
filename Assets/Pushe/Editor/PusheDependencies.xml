@@ -1,0 +1,19 @@
+﻿<dependencies>
+    <androidPackages>
+        <repositories>
+            <repository>https://jcenter.bintray.com</repository>
+            <repository>https://dl.bintray.com/pushe/preview</repository>
+            <repository>https://developer.huawei.com/repo</repository>
+        </repositories>
+        <androidPackage spec="co.pushe.plus:base:2.4.1-beta05">
+            <repository>https://dl.bintray.com/pushe/preview</repository>
+        </androidPackage>
+        <androidPackage spec="androidx.multidex:multidex:2.0.0" />
+    </androidPackages>
+
+    <!-- Refer to 
+https://github.com/googlesamples/unity-jar-resolver/blob/master/sample/Assets/ExternalDependencyManager/Editor/SampleDependencies.xml 
+    for sample -->
+    <iosPods>
+    </iosPods>
+</dependencies>

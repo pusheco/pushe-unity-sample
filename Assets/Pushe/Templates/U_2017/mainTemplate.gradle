@@ -1,0 +1,110 @@
+﻿buildscript {
+	repositories {
+		google()
+		jcenter()
+	}
+
+	dependencies {
+		classpath 'com.android.tools.build:gradle:3.2.0'
+	}
+}
+
+allprojects {
+   repositories {
+      google()
+      jcenter()
+	  // Pushe Extended plugin
+	  maven { url 'https://dl.bintray.com/pushe/preview' }
+	  maven { url 'https://developer.huawei.com/repo' }
+      flatDir {
+        dirs 'libs'
+      }
+   }
+}
+
+apply plugin: 'com.android.application'
+
+dependencies {
+	implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+	// Adding Pushe Plus
+	implementation('co.pushe.plus:base:2.4.1-beta05')
+	// MultiDex
+	implementation 'androidx.multidex:multidex:2.0.1'
+**DEPS**}
+
+android {
+	compileSdkVersion 29
+	buildToolsVersion '29.0.3'
+
+	defaultConfig {
+		// Enable MultiDex -- Pushe natively adds multidex support library. Adding this is enough.
+		multiDexEnabled true
+
+		minSdkVersion **MINSDKVERSION**
+		targetSdkVersion **TARGETSDKVERSION**
+		applicationId '**APPLICATIONID**'
+		ndk {
+            abiFilters **ABIFILTERS**
+        }
+		versionCode	**VERSIONCODE**
+		versionName	'**VERSIONNAME**'
+
+	}
+	
+	
+
+	lintOptions {
+		abortOnError false
+	}
+
+	aaptOptions {
+		noCompress '.unity3d', '.ress', '.resource', '.obb'**STREAMING_ASSETS**
+	}
+
+**SIGN**
+	buildTypes {
+  		debug {
+ 			minifyEnabled **MINIFY_DEBUG**
+ 			useProguard **PROGUARD_DEBUG**
+ 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-unity.txt'**USER_PROGUARD**
+  			jniDebuggable true
+  		}
+  		release {
+ 			minifyEnabled **MINIFY_RELEASE**
+ 			useProguard **PROGUARD_RELEASE**
+  			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-unity.txt'**USER_PROGUARD**
+  			**SIGNCONFIG**
+  		}
+	}
+**PACKAGING_OPTIONS**
+    
+    packagingOptions {
+        exclude 'META-INF/proguard/coroutines.pro'
+    }
+
+    bundle {
+        language {
+            enableSplit = false
+        }
+        density {
+            enableSplit = false
+        }
+        abi {
+            enableSplit = true
+        }
+    }
+    
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    //kotlinOptions {
+        //jvmTarget = "1.8"
+    //}
+}
+
+
+
+
+**SOURCE_BUILD_SETUP**
