@@ -1,4 +1,4 @@
-namespace Pushe
+namespace Pushe.android
 {
     /// <summary>
     /// In order to use Pushe notification callback, you must implement an instance of this interface.

@@ -1,4 +1,4 @@
-namespace Pushe
+namespace Pushe.android
 {
     public interface IPusheInAppMessagingListener
     {

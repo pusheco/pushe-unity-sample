@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
-namespace Pushe
+namespace Pushe.android
 {
     /// <summary>
     /// Notification Utility APIs provided by Pushe library
@@ -29,9 +29,9 @@ namespace Pushe
             int ledColor = 0
         )
         {
-            if (SdkLevel() >= 26)
+            if (PusheAndroidUtils.SdkLevel() >= 26)
             {
-                PusheNotificationService().Call("createNotificationChannel", channelId, channelName,
+                PusheAndroidUtils.PusheNotificationService().Call("createNotificationChannel", channelId, channelName,
                     description, importance, enableLight, enableVibration, showBadge, ledColor, vibrationLengths);
             }
             else
@@ -42,9 +42,9 @@ namespace Pushe
 
         public static void RemoveNotificationChannel(string channelId)
         {
-            if (SdkLevel() >= 26)
+            if (PusheAndroidUtils.SdkLevel() >= 26)
             {
-                PusheNotificationService().Call("removeNotificationChannel", channelId);
+                PusheAndroidUtils.PusheNotificationService().Call("removeNotificationChannel", channelId);
             }
             else
             {
@@ -54,37 +54,37 @@ namespace Pushe
 
         public static void EnableNotification()
         {
-            PusheNotificationService().Call("enableNotifications");
+            PusheAndroidUtils.PusheNotificationService().Call("enableNotifications");
         }
 
         public static void DisableNotification()
         {
-            PusheNotificationService().Call("disableNotifications");
+            PusheAndroidUtils.PusheNotificationService().Call("disableNotifications");
         }
 
         public static bool IsNotificationEnabled()
         {
-            return PusheNotificationService().Call<bool>("isNotificationEnable");
+            return PusheAndroidUtils.PusheNotificationService().Call<bool>("isNotificationEnable");
         }
 
         public static void EnableCustomSound()
         {
-            PusheNotificationService().Call("enableCustomSound");
+            PusheAndroidUtils.PusheNotificationService().Call("enableCustomSound");
         }
 
         public static void DisableCustomSound()
         {
-            PusheNotificationService().Call("disableCustomSound");
+            PusheAndroidUtils.PusheNotificationService().Call("disableCustomSound");
         }
 
         public static bool IsCustomSoundEnabled()
         {
-            return PusheNotificationService().Call<bool>("isCustomSoundEnable");
+            return PusheAndroidUtils.PusheNotificationService().Call<bool>("isCustomSoundEnable");
         }
 
         public static void SetNotificationListener(IPusheNotificationListener listener) {
             var callback = new NotificationCallback(listener);
-            PusheNotificationService().Call("setNotificationListener", callback);
+            PusheAndroidUtils.PusheNotificationService().Call("setNotificationListener", callback);
         }
 
     
@@ -158,27 +158,14 @@ namespace Pushe
 
             try
             {
-                PusheNotificationService().Call("sendNotificationToUser", userNotif);
+                PusheAndroidUtils.PusheNotificationService().Call("sendNotificationToUser", userNotif);
             }
             catch (Exception e)
             {
-                global::Pushe.PusheUnity.Log("Could not send a notification " + e);
+                PusheUnity.Log("Could not send a notification " + e);
             }
         }
 
-        private static AndroidJavaObject PusheNotificationService()
-        {
-            return PusheUtils.Native().CallStatic<AndroidJavaObject>("getPusheService", "notification");
-        }
-
-        private static int SdkLevel()
-        {
-            using (var version = new AndroidJavaClass("android.os.Build$VERSION"))
-            {
-                var sdkInt = version.GetStatic<int>("SDK_INT");
-                return sdkInt;
-            }
-        }
     }
 
     /// <summary>
@@ -293,10 +280,10 @@ namespace Pushe
         public static NotificationData FromAndroid(AndroidJavaObject androidJavaObject) {
             NotificationData notification = new NotificationData();
             try {
-                string json = PusheUtils.Extension("notification").CallStatic<string>("notificationToJson", androidJavaObject);
+                string json = PusheAndroidUtils.Extension("notification").CallStatic<string>("notificationToJson", androidJavaObject);
                 notification = JsonUtility.FromJson<NotificationData>(json);
             } catch(Exception e) {
-                global::Pushe.PusheUnity.Log("Failed to parse notification" + e);
+                PusheUnity.Log("Failed to parse notification" + e);
             }
             return notification;
         }
@@ -325,7 +312,7 @@ namespace Pushe
         public static NotificationButtonData FromAndroid(AndroidJavaObject androidJavaObject) {
             NotificationButtonData button = new NotificationButtonData();
             try {
-                string json = PusheUtils.Extension("notification").CallStatic<string>("notificationButtonToJson", androidJavaObject);
+                string json = PusheAndroidUtils.Extension("notification").CallStatic<string>("notificationButtonToJson", androidJavaObject);
                 button = JsonUtility.FromJson<NotificationButtonData>(json);
             } catch(Exception e) {
                 PusheUnity.Log("Failed to parse notification " + e);
@@ -354,7 +341,7 @@ namespace Pushe
             _listener.OnNotification(data);
         }
         public void onCustomContentNotification(AndroidJavaObject customContent) {
-            var data = PusheUtils.Extension("notification").CallStatic<string>("mapToString", customContent);
+            var data = PusheAndroidUtils.Extension("notification").CallStatic<string>("mapToString", customContent);
             _listener.OnCustomContentReceived(data);
         }
         public void onNotificationClick(AndroidJavaObject notification) {

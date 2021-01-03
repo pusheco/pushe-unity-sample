@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Pushe
+namespace Pushe.android
 {
     public static class PusheAnalytics
     {
@@ -13,18 +13,16 @@ namespace Pushe
         /// <b>If You don't have and action, leave it be custom.</b>
         public static void SendEvent(string eventName)
         {
-            PusheAnalyticsService().Call("sendEvent", eventName);
+            
+            PusheAndroidUtils.PusheAnalyticsService().Call("sendEvent", eventName);
         }
 
         public static void SendEcommerceData(string name, double price, string category = null, long quantity = -1)
         {
-            PusheUtils.Extension("analytics").CallStatic("sendEcommerce", name, price, category, quantity);
+            PusheAndroidUtils.Extension("analytics").CallStatic("sendEcommerce", name, price, category, quantity);
         }
 
-        private static AndroidJavaObject PusheAnalyticsService()
-        {
-            return PusheUtils.Native().CallStatic<AndroidJavaObject>("getPusheService", "analytics");
-        }
+        
 
     }
 }

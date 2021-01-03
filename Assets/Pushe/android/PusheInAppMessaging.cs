@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
-namespace Pushe
+namespace Pushe.android
 {
     public static class PusheInAppMessaging {
 
@@ -53,7 +53,7 @@ namespace Pushe
 
         private static AndroidJavaObject PiamService()
         {
-            return PusheUtils.Native().CallStatic<AndroidJavaObject>("getPusheService", "inappmessaging");
+            return PusheAndroidUtils.Native().CallStatic<AndroidJavaObject>("getPusheService", "inappmessaging");
         }
     }
 
@@ -96,7 +96,7 @@ namespace Pushe
         public static InAppMessage FromAndroid(AndroidJavaObject androidObject) {
             var inapp = new InAppMessage();
             try {
-                var inappJson = PusheUtils.Extension("inappmessaging").CallStatic<string>("inAppToJson", androidObject);
+                var inappJson = PusheAndroidUtils.Extension("inappmessaging").CallStatic<string>("inAppToJson", androidObject);
                 inapp = JsonUtility.FromJson<InAppMessage>(inappJson);
             } catch(Exception e) {
                 PusheUnity.Log("Failed to parse inapp message.\n" + e);

@@ -1,173 +1,352 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using System.Collections.Generic;
+using Pushe.android;
 using UnityEngine;
 
 namespace Pushe
 {
-    /// <summary>
-    /// For more and detailed information and documentations please checkout <seealso ref="https://docs.pushe.co"/>
-    /// </summary>
     public static class PusheUnity
     {
+        //////
 
-        /// <summary>
-        /// GDPR related.
-        /// If the user consent was given about necessary data collection for Pushe,
-        ///     use this function to let pushe registration begin.
-        /// To be able to use GDPR, add "pushe_requires_user_consent" meta-data value to "true",
-        /// After showing the dialog and getting user's consent, call this onAccept.
-        /// NOTE: Calling this only once is enough.
-        /// </summary>
-        public static void Initialize()
-        {
-            PusheUtils.Native().CallStatic("initialize");
+        public static void Initialize() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheCore.Initialize();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            PusheiOSUnityInterface.Initialize();
+    #endif
         }
 
-        /// Set user's consent
-        public static void SetUserConsentGiven()
-        {
-            PusheUtils.Native().CallStatic("setUserConsentGiven");
+        public static bool IsInitialized() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            return PusheCore.IsInitialized(); // Not registration
+    #elif UNITY_IOS && !UNITY_EDITOR
+            return true;
+    #endif
+            return false;
         }
 
-        /// <summary>
-        /// Check if pushe is registered to FCM
-        /// </summary>
-        public static bool IsRegistered()
-        {
-            return PusheUtils.Native().CallStatic<bool>("isRegistered");
+        public static bool IsRegistered() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            return PusheCore.IsRegistered();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            return PusheiOSUnityInterface.IsRegistered();
+    #endif
+            return false;
         }
 
-        /// <summary>
-        /// Returns true if all pushe modules (Core, notification, etc.) were initialized.
-        /// </summary>
-        public static bool IsInitialized()
-        {
-            return PusheUtils.Native().CallStatic<bool>("isInitialized");
+        public static void OnPusheInitialized(PusheDelegate onInitialized) {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheCore.OnPusheInitialized(onInitialized);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+    #endif
         }
 
-        /**
-        Simply pass a void no argument function to this function to handle registration
-     */
-        public static void OnPusheRegistered(RegisterDelegate registerCallback)
-        {
-            PusheUtils.Native().CallStatic("setRegistrationCompleteListener", new RegisterCallback(registerCallback));
+        public static void OnPusheRegistered(PusheDelegate onRegistered) {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheCore.OnPusheRegistered(onRegistered);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+    #endif
+        }
+        
+        public static string GetDeviceId() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            return PusheCore.GetDeviceId();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            return PusheiOSUnityInterface.GetDeviceId();
+    #endif
+            return null;
         }
 
-        /// <summary>
-        /// Simply pass a void no argument function to this to handle initialization.
-        ///
-        /// * NOTE: This is not like Pushe.initialize() from Pushe 1.x. This is different.
-        /// </summary>
-        /// <param name="initCallback"></param>
-        public static void OnPusheInitialized(RegisterDelegate initCallback)
-        {
-            PusheUtils.Native().CallStatic("setInitializationCompleteListener", new RegisterCallback(initCallback));
+        public static string GetGoogleAdvertisingId() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            return PusheCore.GetGoogleAdvertisingId();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            return PusheiOSUnityInterface.GetAdvertisingId();
+    #endif
+            return null;
+        }
+        public static string GetAdvertisingId() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            return PusheCore.GetAdvertisingId();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            return PusheiOSUnityInterface.GetAdvertisingId();
+    #endif
+            return null;
         }
 
-        /// <summary>
-        /// Get google advertising id
-        /// </summary>
-        /// <returns>Null if this feature was disabled by user and true otherwise</returns>
-        public static string GetGoogleAdvertisingId()
-        {
-            return PusheUtils.Native().CallStatic<string>("getGoogleAdvertisingId");
+        public static void SetCustomId(string customId) {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheCore.SetCustomId(customId);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            PusheiOSUnityInterface.SetCustomId(customId);
+    #endif
         }
 
-        /// <summary>
-        /// Returns unique id of device
-        /// Following ID makes a unique ID that:
-        /// - (Android 8.0 or higher): Is unique in an app and will be different on another app.
-        /// - (Android lower that 8.0): Is a unique ID for all apps and each device will have only one id.
-        /// </summary>
-        public static string GetDeviceId()
-        {
-            return PusheUtils.Native().CallStatic<string>("getDeviceId");
+        public static string GetCustomId() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            return PusheCore.GetCustomId();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            return PusheiOSUnityInterface.GetCustomId();
+    #endif
+            return null;
         }
 
-        public static void SubscribeTo(string topic)
-        {
-            PusheUtils.Native().CallStatic("subscribeToTopic", topic, null);
+        public static bool SetUserEmail(string email) {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            return PusheCore.SetUserEmail(email);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            return PusheiOSUnityInterface.SetUserEmail(email);
+    #endif
+            return false;
         }
 
-        public static void UnsubscribeFrom(string topic)
-        {
-            PusheUtils.Native().CallStatic("unsubscribeFromTopic", topic, null);
-        }
-    
-        public static string[] GetSubscribedTopics()
-        {
-            return PusheUtils.Extension().CallStatic<string>("getSubscribedTopicsCsv").Split(',');
-        }
-
-        public static void SetCustomId(string id)
-        {
-            PusheUtils.Native().CallStatic("setCustomId", id);
+        public static string GetUserEmail() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            return PusheCore.GetUserEmail();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            return PusheiOSUnityInterface.GetUserEmail();
+    #endif
+            return null;
         }
 
-        public static string GetCustomId()
-        {
-            return PusheUtils.Native().CallStatic<string>("getCustomId");
+        public static bool SetUserPhoneNumber(string number) {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            return PusheCore.SetUserPhoneNumber(number);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            return PusheiOSUnityInterface.SetUserPhoneNumber(number);
+    #endif
+            return false;
         }
 
-        public static bool SetUserEmail(string email)
-        {
-            return PusheUtils.Native().CallStatic<bool>("setUserEmail", email);
+        public static string GetUserPhoneNumber() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            return PusheCore.GetUserPhoneNumber();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            return PusheiOSUnityInterface.GetUserPhoneNumber();
+    #endif
+            return null;
         }
 
-        public static string GetUserEmail()
-        {
-            return PusheUtils.Native().CallStatic<string>("getUserEmail");
+        public static void AddTags(Dictionary<string, string> tags) {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheCore.AddTags(tags);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            PusheiOSUnityInterface.AddTags(tags);
+    #endif
         }
 
-        public static bool SetUserPhoneNumber(string phone)
-        {
-            return PusheUtils.Native().CallStatic<bool>("setUserPhoneNumber", phone);
+        public static void RemoveTags(params string[] keys) {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheCore.RemoveTags(keys);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            PusheiOSUnityInterface.RemoveTags(keys);
+    #endif
         }
 
-        public static string GetUserPhoneNumber()
-        {
-            return PusheUtils.Native().CallStatic<string>("getUserPhoneNumber");
+        public static Dictionary<string, string> GetSubscribedTags() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            return new Dictionary<string, string>{ {"tags", PusheCore.GetSubscribedTags()} };
+    #elif UNITY_IOS && !UNITY_EDITOR
+            return PusheiOSUnityInterface.GetSubscribedTags();
+    #endif
+            return null;
         }
 
-        public static void AddTags(IDictionary<string, string> tags)
-        {
-            var mapOfTags = PusheUtils.CreateJavaMapFromDictionary(tags);
-            PusheUtils.Native().CallStatic("addTags", mapOfTags);
+        public static void Subscribe(string topic) {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheCore.SubscribeTo(topic);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            PusheiOSUnityInterface.Subscribe(topic);
+    #endif
         }
 
-        public static void RemoveTag(params string[] tags)
-        {
-            var tagsToRemove = PusheUtils.CreateJavaArrayList(tags);
-            PusheUtils.Native().CallStatic("removeTags", tagsToRemove);
+        public static void Unsubscribe(string topic) {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheCore.UnsubscribeFrom(topic);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            PusheiOSUnityInterface.Unsubscribe(topic);
+    #endif
         }
 
-        public static string GetSubscribedTags()
-        {
-            return PusheUtils.Extension().CallStatic<string>("getSubscribedTagsJson");
+        public static string[] GetSubscribedTopics() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            return PusheCore.GetSubscribedTopics();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            return PusheiOSUnityInterface.GetSubscribedTopics();
+    #endif
+            return null;
         }
 
+        public static void EnableNotifications() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheNotification.EnableNotification();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+    #endif
+        }
+
+        public static void DisableNotifications() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheNotification.DisableNotification();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+    #endif
+        }
+
+        public static bool IsNotificationsEnabled() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            return PusheNotification.IsNotificationEnabled();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+            return true;
+    #endif
+            return false;
+        }
+
+        public static void EnableCustomSound() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheNotification.EnableCustomSound();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+    #endif
+        }
+
+        public static void DisableCustomSound() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheNotification.DisableCustomSound();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+    #endif
+        }
+
+        public static bool IsCustomSoundEnabled() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            return PusheNotification.IsCustomSoundEnabled();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+            return true;
+    #endif
+            return false;
+        }
+
+        public static void CreateNotificationChannel(
+            string channelId,
+            string channelName,
+            string description = "",
+            int importance = 4,
+            bool enableLight = true,
+            bool enableVibration = true,
+            long[] vibrationLengths = null,
+            bool showBadge = true,
+            int ledColor = 0)
+        {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheNotification.CreateNotificationChannel(channelId, channelName, description, importance, enableLight, enableVibration, vibrationLengths, showBadge, ledColor);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+    #endif
+        }
+
+        public static void RemoveNotificationChannel(string channelId) {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheNotification.RemoveNotificationChannel(channelId);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+    #endif
+        }
+
+        public static void SendNotificationToUser(UserNotification notification) {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheNotification.SendNotificationToUser(notification);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+    #endif
+        }
+
+        public static void SetNotificationListener(IPusheNotificationListener listener) {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheNotification.SetNotificationListener(listener);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+    #endif
+        }
+
+        public static void SendEvent(string eventName) {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheAnalytics.SendEvent(eventName);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+    #endif
+        }
+        
+        // SendEvent(Event)
+        
+        public static void SendEcommerceData(string name, double price, string category = null, long quantity = -1) {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheAnalytics.SendEcommerceData(name, price, category, quantity);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+    #endif
+        }
+        
+        public static void TriggerEvent(string eventName) {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheInAppMessaging.TriggerEvent(eventName);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+    #endif
+        }
+
+        public static void EnableInAppMessaging() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheInAppMessaging.EnableInAppMessaging();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+    #endif
+        }
+
+        public static void DisableInAppMessaging() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheInAppMessaging.DisableInAppMessaging();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+    #endif
+        }
+
+        public static bool IsInAppMessagingEnabled() {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            return PusheInAppMessaging.IsInAppMessagingEnabled();
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+            return false;
+    #endif
+            return false;
+        }
+
+        public static void SetInAppMessagingListener(IPusheInAppMessagingListener listener) {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheInAppMessaging.SetInAppMessagingListener(listener);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+    #endif
+        }
+
+        public static void TestInAppMessaging(string inAppMessage) {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            PusheInAppMessaging.TestInAppMessage(inAppMessage);
+    #elif UNITY_IOS && !UNITY_EDITOR
+            // not implemented
+    #endif
+        }
+        
         public static void Log(string message)
         {
             Debug.Log("Pushe [Unity]: " + message);
         }
-    }
-
-
-    public delegate void RegisterDelegate();
-
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class RegisterCallback : AndroidJavaProxy
-    {
-        private readonly RegisterDelegate _registerSuccessDelegate;
-
-        public RegisterCallback(RegisterDelegate register) : base("co.pushe.plus.Pushe$Callback")
-        {
-            _registerSuccessDelegate = register;
-        }
-
-        public void onComplete()
-        {
-            _registerSuccessDelegate();
-        }
+        
+        // Used when registered
+        public delegate void PusheDelegate();
     }
 }

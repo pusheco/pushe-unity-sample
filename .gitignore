@@ -12,4 +12,3 @@ UnityPackageManager
 *.meta
 Assets/Plugins/Android/*.jar
 Assets/Plugins/Android/*.aar
-ProjectSettings

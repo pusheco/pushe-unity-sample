@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Pushe
+namespace Pushe.android
 {
-    static class PusheUtils
+    static class PusheAndroidUtils
     {
 
         private const string PushePath = "co.pushe.plus.Pushe";
@@ -69,7 +69,27 @@ namespace Pushe
 
             return javaMap;
         }
+        
+        
+        
+        public static AndroidJavaObject PusheAnalyticsService()
+        {
+            return PusheAndroidUtils.Native().CallStatic<AndroidJavaObject>("getPusheService", "analytics");
+        }
 
 
+        public static AndroidJavaObject PusheNotificationService()
+        {
+            return PusheAndroidUtils.Native().CallStatic<AndroidJavaObject>("getPusheService", "notification");
+        }
+
+        public static int SdkLevel()
+        {
+            using (var version = new AndroidJavaClass("android.os.Build$VERSION"))
+            {
+                var sdkInt = version.GetStatic<int>("SDK_INT");
+                return sdkInt;
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Pushe;
+using Pushe.android;
 using UnityEngine;
 // ReSharper disable All
 
@@ -18,8 +19,10 @@ public class SampleCode : MonoBehaviour
     {
         // Listen to Register
         PusheUnity.OnPusheRegistered(OnPusheRegisteredSuccessfully);
-        // Listen to Initialize
-        PusheUnity.OnPusheInitialized(OnPusheInitialized);
+        PusheUnity.OnPusheInitialized(() =>
+        {
+            PusheUnity.Log("Pushe Modules have initialized successfully.");
+        });
         // Set notification listener
         PusheNotification.SetNotificationListener(new PusheNotifListener());
 
@@ -34,7 +37,7 @@ public class SampleCode : MonoBehaviour
     private void OnPusheRegisteredSuccessfully()
     {
         PusheUnity.Log(" --- Pushe has been REGISTERED to server successfully --- ");
-        var adId = PusheUnity.GetGoogleAdvertisingId();
+        var adId = PusheUnity.GetAdvertisingId();
         PusheUnity.Log("Ad id: " + adId);
         var deviceId = PusheUnity.GetDeviceId();
         PusheUnity.Log("Device id : " + deviceId);
@@ -50,7 +53,7 @@ public class SampleCode : MonoBehaviour
         PusheAnalytics.SendEcommerceData("EcommerceData", 12.0);
 
         PusheUnity.Log("Subscribing to test1");
-        PusheUnity.SubscribeTo("test1");
+        PusheUnity.Subscribe("test1");
 
         PusheUnity.Log("Set 123123 as custom id");
         PusheUnity.SetCustomId("123123");
@@ -59,7 +62,7 @@ public class SampleCode : MonoBehaviour
         var tags = new Dictionary<string, string> {{"name","Mohammad"}, {"age", "25"}, {"birthday","1435187386"}};
         PusheUnity.AddTags(tags);
 
-        PusheUnity.RemoveTag("name", "age");
+        PusheUnity.RemoveTags("name", "age");
 
         PusheUnity.Log("Tags: " + PusheUnity.GetSubscribedTags());
         PusheUnity.Log("Topics: " + string.Join(",", PusheUnity.GetSubscribedTopics()));
@@ -72,16 +75,6 @@ public class SampleCode : MonoBehaviour
         PusheInAppMessaging.SetInAppMessagingListener(new InAppMessagingListener());
     }
 
-    /**
-     * Called when Pushe is initialized.
-     * What is Initialization and what's the difference between `initialize` and `register`?
-     * If Pushe modules codes were ready, it means Pushe has been initialized,
-         while Pushe is registered when the device is submitted to Pushe server and is ready to receive notification.
-     */
-    private static void OnPusheInitialized()
-    {
-        PusheUnity.Log("Pushe Modules have initialized successfully.");
-    }
 }
 
 
